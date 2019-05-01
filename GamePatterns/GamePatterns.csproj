@@ -46,14 +46,16 @@
   <ItemGroup>
     <Compile Include="Database\DatabaseContext.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="Messages\StateChangedMessage.cs" />
     <Compile Include="Modules\IGameObjectModule.cs" />
     <Compile Include="Objects\Player.cs" />
     <Compile Include="Objects\Sprite.cs" />
     <Compile Include="Objects\SpriteMap.cs" />
     <Compile Include="Objects\Tree.cs" />
+    <Compile Include="Objects\World.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="States\IState.cs" />
+    <Compile Include="States\IGameState.cs" />
     <Compile Include="States\StateManager.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -130,9 +132,7 @@
     <None Include="app.manifest" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Messages\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Database\init.sql" />
   </ItemGroup>

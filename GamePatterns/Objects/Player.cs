@@ -1,15 +1,14 @@
 ﻿using GamePatterns.Modules;
-using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace GamePatterns.Objects
 {
-    public interface IObjectState
+    public interface IGameObject
     {
-        void Update(GameTime gameTime);
+        IEnumerable<IGameObjectModule> Modules { get; set; }
     }
 
-    public class Player
+    public class Player : IGameObject
     {
         public SpriteMap SpriteMap { get; set; }
         public IEnumerable<IGameObjectModule> Modules { get; set; }
