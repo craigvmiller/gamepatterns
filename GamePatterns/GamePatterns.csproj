@@ -44,10 +44,14 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Commands\IGameCommand.cs" />
+    <Compile Include="Commands\MoveCommand.cs" />
     <Compile Include="Database\DatabaseContext.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Messages\StateChangedMessage.cs" />
     <Compile Include="Modules\IGameObjectModule.cs" />
+    <Compile Include="Objects\CollisionDetector.cs" />
+    <Compile Include="Objects\InputHelper.cs" />
     <Compile Include="Objects\Player.cs" />
     <Compile Include="Objects\Sprite.cs" />
     <Compile Include="Objects\SpriteMap.cs" />
