@@ -5,25 +5,25 @@ namespace GamePatterns.Objects
 {
     public class DialogueTree
     {
-        private IEnumerable<DialogueElement> all;
-        private DialogueElement current;
+        private IEnumerable<DialogueElement> _all;
+        private DialogueElement _current;
 
         public DialogueElement Next()
         {
-            if (current != null && current.HasChildren && !current.HasResponses)
+            if (_current != null && _current.HasChildren && !_current.HasResponses)
             {
-                return current.Children.First();
+                return _current.Children.First();
             }
-            return current;
+            return _current;
         }
 
         public DialogueElement Next(DialogueResponse response)
         {
-            if (current != null && current.HasChildren && current.HasResponses)
+            if (_current != null && _current.HasChildren && _current.HasResponses)
             {
-                return current.Children.SingleOrDefault(c => c.ResponseId == response.Id);
+                return _current.Children.SingleOrDefault(c => c.ResponseId == response.Id);
             }
-            return current;
+            return _current;
         }
     }
 

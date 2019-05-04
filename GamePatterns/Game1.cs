@@ -1,7 +1,9 @@
-﻿using GamePatterns.States;
+﻿using GamePatterns.Objects;
+using GamePatterns.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Ninject;
 
 namespace GamePatterns
 {
@@ -10,15 +12,18 @@ namespace GamePatterns
     /// </summary>
     public class Game1 : Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-        StateManager stateManager;
+        private GraphicsDeviceManager _graphics;
+        private SpriteBatch _spriteBatch;
+        private StateManager _stateManager;
+        private IKernel _kernel;
         
         public Game1()
         {
-            graphics = new GraphicsDeviceManager(this);
-            stateManager = new StateManager();
+            _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            _kernel = new StandardKernel();
+            _kernel.Bind<IContentStore>().To<ContentStore>().InSingletonScope();
+            _stateManager = _kernel.Get<StateManager>();
         }
 
         /// <summary>
@@ -38,7 +43,7 @@ namespace GamePatterns
         /// </summary>
         protected override void LoadContent()
         {
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
         }
 
         /// <summary>
@@ -56,6 +61,7 @@ namespace GamePatterns
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            _stateManager.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -65,7 +71,8 @@ namespace GamePatterns
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            graphics.GraphicsDevice.Clear(Color.Black);
+            _graphics.GraphicsDevice.Clear(Color.Black);
+            _stateManager.Draw(_spriteBatch, _graphics.GraphicsDevice);
             base.Draw(gameTime);
         }
     }

@@ -3,11 +3,6 @@ using System.Collections.Generic;
 
 namespace GamePatterns.Objects
 {
-    public interface IGameObject
-    {
-        IEnumerable<IGameObjectModule> Modules { get; set; }
-    }
-
     public class Player : IGameObject
     {
         public SpriteMap SpriteMap { get; set; }

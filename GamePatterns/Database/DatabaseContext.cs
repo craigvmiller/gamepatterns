@@ -4,12 +4,12 @@ namespace GamePatterns.Database
 {
     public class DatabaseContext
     {
-        private const string connectionString = @"Data Source=gamepatterns.sqlite;Version=3;";
-        private SQLiteConnection connection;
+        private const string _connectionString = @"Data Source=gamepatterns.sqlite;Version=3;";
+        private SQLiteConnection _connection;
 
         public DatabaseContext()
         {
-            connection = new SQLiteConnection(connectionString);
+            _connection = new SQLiteConnection(_connectionString);
         }
     }
 }
