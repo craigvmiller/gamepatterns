@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Ninject;
 using PubSub.Extension;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -24,13 +23,8 @@ namespace GamePatterns.States
             _kernel = kernel;
             this.Subscribe<StateChangedMessage>(m =>
             {
-                var state = Activator.CreateInstance(m.StateType) as IGameState;
-                state.Wake();
-                if (_stack.Count > 0)
-                {
-                    _stack.Peek().Sleep();
-                }
-                _stack.Push(state);
+                var state = _kernel.Get(m.StateType) as IGameState;
+                Push(state);
             });
         }
 
@@ -66,6 +60,16 @@ namespace GamePatterns.States
                     _stack.Pop();
                 }
             }
+        }
+
+        public void Push(IGameState state)
+        {
+            if (_stack.Count > 0)
+            {
+                _stack.Peek().Sleep();
+            }
+            state.Wake();
+            _stack.Push(state);
         }
     }
 }

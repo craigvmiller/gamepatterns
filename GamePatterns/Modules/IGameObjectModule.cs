@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GamePatterns.Commands;
+using Microsoft.Xna.Framework;
 
 namespace GamePatterns.Modules
 {

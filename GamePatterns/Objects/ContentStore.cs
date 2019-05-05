@@ -25,7 +25,11 @@ namespace GamePatterns.Objects
 
         public T Get<T>(string key) where T : class
         {
-            return _content.SingleOrDefault(c => c.Key == key) as T;
+            if (_content.ContainsKey(key))
+            {
+                return _content.SingleOrDefault(c => c.Key == key).Value as T;
+            }
+            return null;
         }
     }
 }

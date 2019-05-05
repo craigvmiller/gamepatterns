@@ -15,14 +15,18 @@ namespace GamePatterns
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private StateManager _stateManager;
+        private IContentStore _contentStore;
         private IKernel _kernel;
         
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
             _kernel = new StandardKernel();
             _kernel.Bind<IContentStore>().To<ContentStore>().InSingletonScope();
+
+            _contentStore = _kernel.Get<IContentStore>();
             _stateManager = _kernel.Get<StateManager>();
         }
 
@@ -44,6 +48,8 @@ namespace GamePatterns
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            _contentStore.Add("player", Content.Load<Texture2D>("character"));
+            _stateManager.Push(_kernel.Get<ExploringState>());
         }
 
         /// <summary>

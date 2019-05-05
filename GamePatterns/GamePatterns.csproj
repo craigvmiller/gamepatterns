@@ -51,16 +51,16 @@
     <Compile Include="Messages\StateChangedMessage.cs" />
     <Compile Include="Modules\CollideModule.cs" />
     <Compile Include="Modules\CollisionType.cs" />
-    <Compile Include="Modules\GraphicModule.cs" />
+    <Compile Include="Modules\GraphicsModule.cs" />
     <Compile Include="Modules\IGameObjectModule.cs" />
     <Compile Include="Modules\InteractModule.cs" />
     <Compile Include="Modules\MovementModule.cs" />
+    <Compile Include="Objects\BaseGameObject.cs" />
     <Compile Include="Objects\CollisionDetector.cs" />
     <Compile Include="Objects\ContentStore.cs" />
     <Compile Include="Objects\Direction.cs" />
     <Compile Include="Objects\IGameObject.cs" />
     <Compile Include="Objects\InputHelper.cs" />
-    <Compile Include="Objects\Player.cs" />
     <Compile Include="Objects\Sprite.cs" />
     <Compile Include="Objects\SpriteMap.cs" />
     <Compile Include="Objects\Tree.cs" />
@@ -150,6 +150,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="Content\character.png" />
     <Content Include="Database\init.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

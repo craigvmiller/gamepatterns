@@ -24,5 +24,10 @@ namespace GamePatterns.Modules
         public void Update(GameTime gameTime)
         {
         }
+
+        public void OnPositionChanged(object sender, MovementEventArgs e)
+        {
+            Position = e.NewPosition;
+        }
     }
 }
