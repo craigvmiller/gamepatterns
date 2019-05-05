@@ -49,6 +49,7 @@ namespace GamePatterns
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _contentStore.Add("player", Content.Load<Texture2D>("character"));
+            _contentStore.Add("world", Content.Load<Texture2D>("world"));
             _stateManager.Push(_kernel.Get<ExploringState>());
         }
 

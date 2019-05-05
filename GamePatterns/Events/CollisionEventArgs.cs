@@ -2,5 +2,5 @@
 
 namespace GamePatterns.Events
 {
-    public class InteractEventArgs : EventArgs { }
+    public class CollisionEventArgs : EventArgs { }
 }

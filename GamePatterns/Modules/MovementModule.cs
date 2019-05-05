@@ -1,5 +1,4 @@
-﻿using GamePatterns.Commands;
-using GamePatterns.Events;
+﻿using GamePatterns.Events;
 using GamePatterns.Objects;
 using Microsoft.Xna.Framework;
 using System;
@@ -9,15 +8,23 @@ namespace GamePatterns.Modules
     public class MovementModule : IGameObjectModule
     {
         private Vector2 _totalMovement;
+        private int _baseSpeed;
 
         public Vector2 Position { get; set; }
         public EventHandler<MovementEventArgs> OnMove { get; set; }
         public EventHandler<MovementEventArgs> OnRevert { get; set; }
+        public int Speed { get; set; }
+
+        public MovementModule()
+        {
+            _baseSpeed = 2;
+            Speed = _baseSpeed;
+        }
 
         public void Move(Direction direction, Vector2 movementVector)
         {
-            Position += movementVector;
-            _totalMovement += movementVector;
+            _totalMovement += movementVector * Speed;
+            Position += movementVector * Speed;
             if (OnMove != null) OnMove.Invoke(this, new MovementEventArgs(Position));
         }
 

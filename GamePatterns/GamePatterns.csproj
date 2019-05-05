@@ -45,8 +45,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Commands\IGameCommand.cs" />
+    <Compile Include="Commands\MoveCommand.cs" />
+    <Compile Include="Commands\SubmitCommand.cs" />
     <Compile Include="Database\DatabaseContext.cs" />
+    <Compile Include="Events\CollisionEventArgs.cs" />
+    <Compile Include="Events\DrawEventArgs.cs" />
     <Compile Include="Events\InteractEventArgs.cs" />
+    <Compile Include="Events\MovementEventArgs.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Messages\StateChangedMessage.cs" />
     <Compile Include="Modules\CollideModule.cs" />
@@ -83,6 +88,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Data.SQLite, Version=1.0.110.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Data.SQLite.Core.1.0.110.0\lib\net45\System.Data.SQLite.dll</HintPath>
     </Reference>

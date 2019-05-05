@@ -14,7 +14,7 @@ namespace GamePatterns.Modules
         public Color BaseColor { get; set; }
 
         public EventHandler<DrawEventArgs> OnDraw { get; set; }
-
+        
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(SpriteMap.Texture, Position, CurrentSprite, BaseColor);
