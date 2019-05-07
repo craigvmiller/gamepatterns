@@ -12,6 +12,7 @@ namespace GamePatterns.Modules
         public Vector2 Position { get; set; }
         public Rectangle CurrentSprite { get; set; }
         public Color BaseColor { get; set; }
+        public GraphicsLayer Layer { get; set; }
 
         public EventHandler<DrawEventArgs> OnDraw { get; set; }
         

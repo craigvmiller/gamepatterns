@@ -11,6 +11,11 @@ create table spritemap
     [name] varchar(20)
 );
 
+insert into spritemap (id, [name])
+values
+(0, 'player'),
+(1, 'world');
+
 create table spritemap_sprite
 (
     id int primary key,
@@ -22,6 +27,13 @@ create table spritemap_sprite
     spritemap_id int not null,
     foreign key(spritemap_id) references spritemap(id)
 );
+
+insert into spritemap_sprite (id, [name], x, y, width, height, spritemap_id)
+values
+(0, 'player_walk_south', 0, 0, 32, 32, 0),
+
+(1, 'world_grass', 0, 0, 32, 32, 1),
+(2, 'world_brick', 32, 0, 32, 32, 1);
 
 create table animation
 (

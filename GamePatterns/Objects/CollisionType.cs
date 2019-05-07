@@ -1,4 +1,4 @@
-﻿namespace GamePatterns.Modules
+﻿namespace GamePatterns.Objects
 {
     public enum CollisionType
     {

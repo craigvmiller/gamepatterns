@@ -1,4 +1,5 @@
-﻿using GamePatterns.Objects;
+﻿using GamePatterns.Database;
+using GamePatterns.Objects;
 using GamePatterns.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -15,11 +16,16 @@ namespace GamePatterns
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private StateManager _stateManager;
+        private DatabaseContext _database;
+
         private IContentStore _contentStore;
         private IKernel _kernel;
         
         public Game1()
         {
+            _database = new DatabaseContext();
+            _database.Init();
+
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 

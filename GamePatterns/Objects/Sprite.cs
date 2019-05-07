@@ -20,9 +20,4 @@ namespace GamePatterns.Objects
         public int Length { get; set; }
         public int Sequence { get; set; }
     }
-
-    public class Tile
-    {
-
-    }
 }

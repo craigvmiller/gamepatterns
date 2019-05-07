@@ -2,11 +2,13 @@
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using System.IO;
 
 namespace GamePatterns.Database
 {
     public class DatabaseContext
     {
+        private const string _sqlFile = @"C:\Users\craig\source\repos\GamePatterns\GamePatterns\Database\init.sql";
         private const string _connectionString = @"Data Source=gamepatterns.sqlite;Version=3;";
         private SQLiteConnection _connection;
 
@@ -17,6 +19,7 @@ namespace GamePatterns.Database
 
         public IEnumerable<Sprite> GetSpriteMapSprites(int id)
         {
+            _connection.Open();
             string sql = string.Format(
                 "select s.id, s.[name], s.x, s.y, s.width, s.height " +
                 "from spritemap_sprite s " +
@@ -41,6 +44,23 @@ namespace GamePatterns.Database
                     };
                 }
             }
+            _connection.Close();
+        }
+
+        public void Init()
+        {
+            SQLiteConnection.CreateFile("gamepatterns.sqlite");
+            _connection = new SQLiteConnection(_connectionString);
+            _connection.Open();
+            SQLiteCommand cmd = new SQLiteCommand(_connection);
+
+            using (StreamReader reader = new StreamReader(_sqlFile))
+            {
+                cmd.CommandText += reader.ReadToEnd();
+            }
+
+            cmd.ExecuteNonQuery();
+            _connection.Close();
         }
     }
 }

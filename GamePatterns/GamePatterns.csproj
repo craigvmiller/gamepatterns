@@ -64,6 +64,7 @@
     <Compile Include="Objects\CollisionDetector.cs" />
     <Compile Include="Objects\ContentStore.cs" />
     <Compile Include="Objects\Direction.cs" />
+    <Compile Include="Objects\GraphicsLayer.cs" />
     <Compile Include="Objects\IGameObject.cs" />
     <Compile Include="Objects\InputHelper.cs" />
     <Compile Include="Objects\Sprite.cs" />
@@ -157,6 +158,7 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="Content\character.png" />
+    <Content Include="Content\world.png" />
     <Content Include="Database\init.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
