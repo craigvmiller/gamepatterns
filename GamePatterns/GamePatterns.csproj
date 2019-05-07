@@ -55,7 +55,7 @@
     <Compile Include="Game1.cs" />
     <Compile Include="Messages\StateChangedMessage.cs" />
     <Compile Include="Modules\CollideModule.cs" />
-    <Compile Include="Modules\CollisionType.cs" />
+    <Compile Include="Objects\CollisionType.cs" />
     <Compile Include="Modules\GraphicsModule.cs" />
     <Compile Include="Modules\IGameObjectModule.cs" />
     <Compile Include="Modules\InteractModule.cs" />
