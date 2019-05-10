@@ -15,7 +15,7 @@ namespace GamePatterns.States
         {
             Objects = new List<IGameObject>()
             {
-                new Tile(1, contentStore.Get<Texture2D>("world"), new Vector2(0, 0)),
+                new Tile(1, contentStore.Get<Texture2D>("world"), new Vector2(100, 100)),
                 new Player(0, contentStore.Get<Texture2D>("player"), new Vector2(10, 10))
             };
         }
@@ -37,6 +37,8 @@ namespace GamePatterns.States
 
         public void Update(GameTime gameTime)
         {
+            CollisionDetector.CheckForCollisions(Objects);
+
             foreach (IGameObject obj in Objects)
             {
                 obj.Update(gameTime);

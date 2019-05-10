@@ -36,7 +36,7 @@ namespace GamePatterns.States
                 var current = _stack.Peek();
                 foreach (var obj in current.Objects)
                 {
-                    var graphics = obj.Modules.SingleOrDefault(m => m is GraphicsModule) as GraphicsModule;
+                    var graphics = obj.GetModule<GraphicsModule>();
                     if (graphics != null)
                     {
                         graphics.Draw(spriteBatch);

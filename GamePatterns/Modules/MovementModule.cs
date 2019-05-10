@@ -33,11 +33,14 @@ namespace GamePatterns.Modules
             _totalMovement = new Vector2(0, 0);
         }
 
-        public void Revert()
+        public void OnCollision(object sender, CollisionEventArgs e)
         {
-            Position -= _totalMovement;
-            _totalMovement = new Vector2(0, 0);
-            if (OnRevert != null) OnRevert.Invoke(this, new MovementEventArgs(Position));
+            if (e.CollisionType == CollisionType.Wall)
+            {
+                Position -= _totalMovement;
+                _totalMovement = new Vector2(0, 0);
+                if (OnRevert != null) OnRevert.Invoke(this, new MovementEventArgs(Position));
+            }
         }
     }
 }

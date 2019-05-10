@@ -18,7 +18,7 @@ namespace GamePatterns.Commands
 
         public void Execute(IGameObject gameObject)
         {
-            var module = gameObject.Modules.SingleOrDefault(m => m is MovementModule) as MovementModule;
+            var module = gameObject.GetModule<MovementModule>();
             if (module != null)
             {
                 module.Move(_direction, _movementVector);

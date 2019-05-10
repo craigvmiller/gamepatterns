@@ -8,7 +8,7 @@ namespace GamePatterns.Commands
     {
         public void Execute(IGameObject gameObject)
         {
-            if (gameObject.Modules.Any(m => m is InteractModule))
+            if (gameObject.HasModule<InteractModule>())
             {
 
             }
