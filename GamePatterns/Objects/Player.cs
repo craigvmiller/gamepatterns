@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace GamePatterns.Objects
 {
-    public class Player : BaseGameObject
+    public class Player : GameObject
     {
         public Player()
         {
@@ -14,6 +14,8 @@ namespace GamePatterns.Objects
 
         public Player(int spriteMapId, Texture2D texture, Vector2 initialPosition)
         {
+            var position = new PositionModule();
+
             var movement = new MovementModule()
             {
                 Position = initialPosition

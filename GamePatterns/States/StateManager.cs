@@ -1,12 +1,10 @@
 ﻿using GamePatterns.Messages;
-using GamePatterns.Modules;
 using GamePatterns.Objects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Ninject;
 using PubSub.Extension;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace GamePatterns.States
 {
@@ -16,11 +14,11 @@ namespace GamePatterns.States
         private InputHelper _input;
         private IKernel _kernel;
 
-        public StateManager(IKernel kernel)
+        public StateManager()
         {
             _stack = new Stack<IGameState>();
             _input = new InputHelper();
-            _kernel = kernel;
+            _kernel = new StandardKernel();
             this.Subscribe<StateChangedMessage>(m =>
             {
                 var state = _kernel.Get(m.StateType) as IGameState;
@@ -34,14 +32,7 @@ namespace GamePatterns.States
             {
                 spriteBatch.Begin();
                 var current = _stack.Peek();
-                foreach (var obj in current.Objects)
-                {
-                    var graphics = obj.GetModule<GraphicsModule>();
-                    if (graphics != null)
-                    {
-                        graphics.Draw(spriteBatch);
-                    }
-                }
+                current.Draw(spriteBatch);
                 spriteBatch.End();
             }
         }

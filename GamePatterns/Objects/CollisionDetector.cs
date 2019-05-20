@@ -19,17 +19,17 @@ namespace GamePatterns.Objects
 
         public static void CheckForCollisions(IEnumerable<IGameObject> objects)
         {
-            IEnumerable<IGameObject> collideObjects = objects.Where(o => o.HasModule<CollideModule>());
+            IEnumerable<IGameObject> collideObjects = objects.Where(o => o.Has<CollideModule>());
             foreach (IGameObject a in collideObjects)
             {
-                CollideModule moduleA = a.GetModule<CollideModule>();
+                CollideModule moduleA = a.Get<CollideModule>();
                 Rectangle rectA = new Rectangle(
                     (int)moduleA.Position.X, (int)moduleA.Position.Y,
                     moduleA.HitBox.Width, moduleA.HitBox.Height);
 
                 foreach (IGameObject b in collideObjects.Where(o => o != a))
                 {
-                    CollideModule moduleB = b.GetModule<CollideModule>();
+                    CollideModule moduleB = b.Get<CollideModule>();
                     Rectangle rectB = new Rectangle(
                         (int)moduleB.Position.X, (int)moduleB.Position.Y,
                         moduleB.HitBox.Width, moduleB.HitBox.Height);

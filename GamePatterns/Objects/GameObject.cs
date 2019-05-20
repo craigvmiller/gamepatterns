@@ -5,21 +5,21 @@ using System.Linq;
 
 namespace GamePatterns.Objects
 {
-    public class BaseGameObject : IGameObject
+    public class GameObject : IGameObject
     {
-        public IEnumerable<IGameObjectModule> Modules { get; set; }
+        protected IEnumerable<IGameObjectModule> Modules;
 
-        public BaseGameObject()
+        public GameObject()
         {
             Modules = new List<IGameObjectModule>();
         }
 
-        public BaseGameObject(IEnumerable<IGameObjectModule> modules)
+        public GameObject(IEnumerable<IGameObjectModule> modules)
         {
             Modules = modules;
         }
 
-        public BaseGameObject(params IGameObjectModule[] modules)
+        public GameObject(params IGameObjectModule[] modules)
         {
             Modules = modules;
         }
@@ -32,12 +32,12 @@ namespace GamePatterns.Objects
             }
         }
 
-        public bool HasModule<T>() where T : class, IGameObjectModule
+        public bool Has<T>() where T : class, IGameObjectModule
         {
             return Modules.Any(m => m.GetType() == typeof(T));
         }
 
-        public T GetModule<T>() where T : class, IGameObjectModule
+        public T Get<T>() where T : class, IGameObjectModule
         {
             return (T)Modules.SingleOrDefault(m => m.GetType() == typeof(T));
         }

@@ -81,6 +81,12 @@ create table dialogue
 	foreign key(requiredresponse_id) references dialogue_response(id)
 );
 
+insert into dialogue (id, parent_id, [text], [sequence], requiredresponse_id, tree_id)
+values
+(0, null, 'Hey, how''s it going?', 0, null, 0),
+(1, 0, 'That sucks, sorry to hear it.', 1, 1, 0),
+(2, 0, 'Awesome!', 1, 0, 0);
+
 create table dialogue_response
 (
 	id int primary key,
@@ -90,3 +96,8 @@ create table dialogue_response
 	tree_id int not null,
 	foreign key(dialogue_id) references dialogue(id)
 );
+
+insert into dialogue_response (id, dialogue_id, [text], [sequence], tree_id)
+values
+(0, 0, 'I''m good, thanks.', 0, 0),
+(1, 0, 'Not great, to be honest.', 1, 0);

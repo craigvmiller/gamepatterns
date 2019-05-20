@@ -47,6 +47,25 @@ namespace GamePatterns.Database
             _connection.Close();
         }
 
+        //public IEnumerable<DialogueTree> GetDialogueTree(int id)
+        //{
+        //    _connection.Open();
+        //    string sql = string.Format(
+        //        "select id, parent_id, [text], [sequence], requiredresponse_id " +
+        //        "from dialogue d " +
+        //        "where d.tree_id = {0}", id);
+        //    SQLiteCommand cmd = _connection.CreateCommand();
+        //    cmd.CommandType = System.Data.CommandType.Text;
+        //    cmd.CommandText = sql;
+        //    using (SQLiteDataReader reader = cmd.ExecuteReader())
+        //    {
+        //        while (reader.Read())
+        //        {
+        //            DialogueElement element = new DialogueElement();
+        //        }
+        //    }
+        //}
+
         public void Init()
         {
             SQLiteConnection.CreateFile("gamepatterns.sqlite");

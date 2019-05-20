@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace GamePatterns.Objects
 {
-    public class Tile : BaseGameObject
+    public class Tile : GameObject
     {
         public Tile()
         {

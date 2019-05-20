@@ -1,10 +1,10 @@
 ﻿using GamePatterns.Database;
+using GamePatterns.Messages;
 using GamePatterns.Objects;
 using GamePatterns.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Ninject;
+using PubSub.Extension;
 
 namespace GamePatterns
 {
@@ -19,7 +19,6 @@ namespace GamePatterns
         private DatabaseContext _database;
 
         private IContentStore _contentStore;
-        private IKernel _kernel;
         
         public Game1()
         {
@@ -29,11 +28,7 @@ namespace GamePatterns
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
-            _kernel = new StandardKernel();
-            _kernel.Bind<IContentStore>().To<ContentStore>().InSingletonScope();
-
-            _contentStore = _kernel.Get<IContentStore>();
-            _stateManager = _kernel.Get<StateManager>();
+            _stateManager = new StateManager();
         }
 
         /// <summary>
@@ -54,9 +49,7 @@ namespace GamePatterns
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            _contentStore.Add("player", Content.Load<Texture2D>("character"));
-            _contentStore.Add("world", Content.Load<Texture2D>("world"));
-            _stateManager.Push(_kernel.Get<ExploringState>());
+            this.Publish(new StateChangedMessage(typeof(ExploringState)));
         }
 
         /// <summary>
