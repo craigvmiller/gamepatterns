@@ -5,6 +5,13 @@ using System.Linq;
 
 namespace GamePatterns.Objects
 {
+    public interface IGameObject
+    {
+        bool Has<T>() where T : class, IGameObjectModule;
+        T Get<T>() where T : class, IGameObjectModule;
+        void Update(GameTime gameTime);
+    }
+
     public class GameObject : IGameObject
     {
         protected IEnumerable<IGameObjectModule> Modules;

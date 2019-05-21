@@ -69,7 +69,6 @@
     <Compile Include="Objects\Direction.cs" />
     <Compile Include="Objects\GameObject.cs" />
     <Compile Include="Objects\GameObjectFactory.cs" />
-    <Compile Include="Objects\IGameObject.cs" />
     <Compile Include="Objects\InputHelper.cs" />
     <Compile Include="Objects\Sprite.cs" />
     <Compile Include="Objects\SpriteMap.cs" />

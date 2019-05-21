@@ -18,11 +18,13 @@ namespace GamePatterns.States
         public ExploringState(ContentManager content)
         {
             GameObjectFactory factory = new GameObjectFactory();
-            SpriteMap spriteMap = new SpriteMap(0, content.Load<Texture2D>("character"));
+            SpriteMap characterSpriteMap = new SpriteMap(0, content.Load<Texture2D>("character"));
+            SpriteMap worldSpriteMap = new SpriteMap(1, content.Load<Texture2D>("world"));
 
             _objects = new List<IGameObject>()
             {
-                factory.GetCharacter(spriteMap)
+                factory.GetCharacter(characterSpriteMap, new Vector2(100, 100)),
+                factory.GetCharacter(worldSpriteMap, new Vector2(200, 200)),
             };
         }
 

@@ -17,6 +17,15 @@ namespace GamePatterns.Modules
 
         public EventHandler<PositionEventArgs> OnPositionChanged { get; set; }
 
+        public PositionModule()
+        {
+        }
+
+        public PositionModule(Vector2 initialPos)
+        {
+            _position = initialPos;
+        }
+
         public void Update(GameTime gameTime)
         {
         }
