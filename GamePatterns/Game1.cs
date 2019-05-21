@@ -1,6 +1,5 @@
 ﻿using GamePatterns.Database;
 using GamePatterns.Messages;
-using GamePatterns.Objects;
 using GamePatterns.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -18,8 +17,6 @@ namespace GamePatterns
         private StateManager _stateManager;
         private DatabaseContext _database;
 
-        private IContentStore _contentStore;
-        
         public Game1()
         {
             _database = new DatabaseContext();
@@ -28,7 +25,7 @@ namespace GamePatterns
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
-            _stateManager = new StateManager();
+            _stateManager = new StateManager(Content);
         }
 
         /// <summary>
@@ -49,6 +46,7 @@ namespace GamePatterns
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
             this.Publish(new StateChangedMessage(typeof(ExploringState)));
         }
 

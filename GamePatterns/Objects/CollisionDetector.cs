@@ -23,18 +23,10 @@ namespace GamePatterns.Objects
             foreach (IGameObject a in collideObjects)
             {
                 CollideModule moduleA = a.Get<CollideModule>();
-                Rectangle rectA = new Rectangle(
-                    (int)moduleA.Position.X, (int)moduleA.Position.Y,
-                    moduleA.HitBox.Width, moduleA.HitBox.Height);
-
                 foreach (IGameObject b in collideObjects.Where(o => o != a))
                 {
                     CollideModule moduleB = b.Get<CollideModule>();
-                    Rectangle rectB = new Rectangle(
-                        (int)moduleB.Position.X, (int)moduleB.Position.Y,
-                        moduleB.HitBox.Width, moduleB.HitBox.Height);
-
-                    if (HasCollision(rectA, rectB))
+                    if (HasCollision(moduleA.HitBox, moduleB.HitBox))
                     {
                         if (moduleA.OnCollision != null)
                         {

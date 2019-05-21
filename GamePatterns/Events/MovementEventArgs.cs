@@ -3,13 +3,14 @@ using System;
 
 namespace GamePatterns.Events
 {
-    public class MovementEventArgs : EventArgs
+    public class PositionEventArgs : EventArgs
     {
-        public MovementEventArgs(Vector2 position)
+        public PositionEventArgs(Vector2 position)
         {
-            NewPosition = position;
+            Position = position;
         }
 
-        public Vector2 NewPosition { get; set; }
+        public Vector2 Position { get; set; }
+        public bool Cancel { get; set; }
     }
 }

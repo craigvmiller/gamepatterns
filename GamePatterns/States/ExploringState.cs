@@ -4,6 +4,7 @@ using GamePatterns.Commands;
 using GamePatterns.Modules;
 using GamePatterns.Objects;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace GamePatterns.States
@@ -14,12 +15,14 @@ namespace GamePatterns.States
 
         public bool Completed { get; set; }
 
-        public ExploringState(IContentStore contentStore)
+        public ExploringState(ContentManager content)
         {
+            GameObjectFactory factory = new GameObjectFactory();
+            SpriteMap spriteMap = new SpriteMap(0, content.Load<Texture2D>("character"));
+
             _objects = new List<IGameObject>()
             {
-                new Tile(1, contentStore.Get<Texture2D>("world"), new Vector2(100, 100)),
-                new Player(0, contentStore.Get<Texture2D>("player"), new Vector2(10, 10))
+                factory.GetCharacter(spriteMap)
             };
         }
 
@@ -54,9 +57,9 @@ namespace GamePatterns.States
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            foreach (IGameObject obj in _objects.Where(o => o.Has<GraphicsModule>()))
+            foreach (IGameObject obj in _objects.Where(o => o.Has<GraphicModule>()))
             {
-                var graphics = obj.Get<GraphicsModule>();
+                var graphics = obj.Get<GraphicModule>();
                 graphics.Draw(spriteBatch);
             }
         }

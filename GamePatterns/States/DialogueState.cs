@@ -2,6 +2,7 @@
 using GamePatterns.Commands;
 using GamePatterns.Objects;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace GamePatterns.States
@@ -15,9 +16,10 @@ namespace GamePatterns.States
 
         public bool Completed { get; set; }
 
-        public DialogueState(IContentStore contentStore)
+        public DialogueState(ContentManager content)
         {
             _dialogue = new DialogueTree();
+            _font = content.Load<SpriteFont>("font");
         }
 
         public void Draw(SpriteBatch spriteBatch)
