@@ -20,15 +20,15 @@ namespace GamePatterns.States
         public ExploringState(ContentManager content)
         {
             _factory = new GameObjectFactory();
-            _camera = new Camera();
+            _camera = new Camera(new Rectangle(300, 200, 200, 200), 2);
 
             SpriteMap characterSpriteMap = new SpriteMap(0, content.Load<Texture2D>("character"));
             SpriteMap worldSpriteMap = new SpriteMap(1, content.Load<Texture2D>("world"));
 
             _objects = new List<IGameObject>()
             {
-                _factory.GetCharacter(characterSpriteMap, new Vector2(100, 100)),
                 _factory.GetDecoration(worldSpriteMap, new Vector2(200, 200)),
+                _factory.GetCharacter(characterSpriteMap, new Vector2(100, 100)),
             };
         }
 

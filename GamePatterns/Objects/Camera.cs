@@ -23,7 +23,7 @@ namespace GamePatterns.Objects
         {
             _bounds = bounds;
             _speed = speed;
-            _offset = new Vector3(0, 0, 0);
+            _offset = new Vector3(bounds.X, bounds.Y, 0);
         }
 
         public Matrix GetOffset(IGameObject follow) => GetOffset(follow, _speed);
@@ -33,7 +33,7 @@ namespace GamePatterns.Objects
             if (follow.Has<GraphicModule>())
             {
                 var module = follow.Get<GraphicModule>();
-                var currentBounds = new Rectangle((int)_offset.X, (int)_offset.Y, _bounds.Width, _bounds.Height);
+                var currentBounds = new Rectangle((int)_offset.X + _bounds.X, (int)_offset.Y + _bounds.Y, _bounds.Width, _bounds.Height);
                 if (module.Bounds.Left < currentBounds.Left)
                 {
                     _offset.X -= _speed;
