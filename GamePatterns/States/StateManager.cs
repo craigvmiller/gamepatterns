@@ -32,10 +32,8 @@ namespace GamePatterns.States
         {
             if (_stack.Count > 0)
             {
-                spriteBatch.Begin();
                 var current = _stack.Peek();
                 current.Draw(spriteBatch);
-                spriteBatch.End();
             }
         }
 

@@ -5,6 +5,9 @@ namespace GamePatterns.Objects
 {
     public interface IGameObjectFactory
     {
+        IGameObject GetCharacter(SpriteMap spriteMap, Vector2 initialPos);
+        IGameObject GetDecoration(SpriteMap spriteMap, Vector2 initialPos);
+        IGameObject GetProp(SpriteMap spriteMap, Vector2 initialPos);
     }
 
     public class GameObjectFactory : IGameObjectFactory

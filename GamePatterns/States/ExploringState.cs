@@ -12,19 +12,23 @@ namespace GamePatterns.States
     public class ExploringState : IGameState
     {
         private IEnumerable<IGameObject> _objects;
+        private IGameObjectFactory _factory;
+        private ICamera _camera;
 
         public bool Completed { get; set; }
 
         public ExploringState(ContentManager content)
         {
-            GameObjectFactory factory = new GameObjectFactory();
+            _factory = new GameObjectFactory();
+            _camera = new Camera();
+
             SpriteMap characterSpriteMap = new SpriteMap(0, content.Load<Texture2D>("character"));
             SpriteMap worldSpriteMap = new SpriteMap(1, content.Load<Texture2D>("world"));
 
             _objects = new List<IGameObject>()
             {
-                factory.GetCharacter(characterSpriteMap, new Vector2(100, 100)),
-                factory.GetCharacter(worldSpriteMap, new Vector2(200, 200)),
+                _factory.GetCharacter(characterSpriteMap, new Vector2(100, 100)),
+                _factory.GetDecoration(worldSpriteMap, new Vector2(200, 200)),
             };
         }
 
@@ -59,11 +63,14 @@ namespace GamePatterns.States
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            var player = _objects.SingleOrDefault(o => o.Has<MovementModule>());
+            spriteBatch.Begin(transformMatrix: _camera.GetOffset(player));
             foreach (IGameObject obj in _objects.Where(o => o.Has<GraphicModule>()))
             {
                 var graphics = obj.Get<GraphicModule>();
                 graphics.Draw(spriteBatch);
             }
+            spriteBatch.End();
         }
     }
 }

@@ -7,6 +7,7 @@ namespace GamePatterns.Objects
     {
         public int Id { get; set; }
         public Rectangle Rectangle { get; set; }
+        public Vector2 Offset { get; set; }
     }
 
     public class Animation
