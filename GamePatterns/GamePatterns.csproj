@@ -72,6 +72,7 @@
     <Compile Include="Objects\InputHelper.cs" />
     <Compile Include="Objects\Sprite.cs" />
     <Compile Include="Objects\SpriteMap.cs" />
+    <Compile Include="Objects\WorldBuilder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="States\DialogueState.cs" />

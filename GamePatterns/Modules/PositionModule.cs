@@ -13,8 +13,7 @@ namespace GamePatterns.Modules
 
     public class PositionModule : IPositionModule
     {
-        private Vector2 _position;
-
+        public Vector2 Position { get; private set; }
         public EventHandler<PositionEventArgs> OnPositionChanged { get; set; }
 
         public PositionModule()
@@ -23,7 +22,7 @@ namespace GamePatterns.Modules
 
         public PositionModule(Vector2 initialPos)
         {
-            _position = initialPos;
+            Position = initialPos;
         }
 
         public void Update(GameTime gameTime)
@@ -32,13 +31,13 @@ namespace GamePatterns.Modules
 
         public void OnMove(object sender, PositionEventArgs e)
         {
-            _position = e.Position;
-            if (OnPositionChanged != null) OnPositionChanged.Invoke(this, new PositionEventArgs(_position));
+            Position = e.Position;
+            if (OnPositionChanged != null) OnPositionChanged.Invoke(this, new PositionEventArgs(Position));
         }
 
         public void OnRequestPosition(object sender, PositionEventArgs e)
         {
-            e.Position = _position;
+            e.Position = Position;
         }
     }
 }

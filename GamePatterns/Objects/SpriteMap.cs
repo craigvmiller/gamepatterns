@@ -14,10 +14,14 @@ namespace GamePatterns.Objects
         {
         }
 
-        public SpriteMap(int id, Texture2D texture)
+        public SpriteMap(Texture2D texture)
+        {
+            Texture = texture;
+        }
+
+        public void Load(int id)
         {
             Id = id;
-            Texture = texture;
 
             var db = new DatabaseContext();
             Sprites = db.GetSpriteMapSprites(Id);

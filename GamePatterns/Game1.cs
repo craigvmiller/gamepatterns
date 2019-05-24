@@ -20,7 +20,6 @@ namespace GamePatterns
         public Game1()
         {
             _database = new DatabaseContext();
-            _database.Init();
 
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";

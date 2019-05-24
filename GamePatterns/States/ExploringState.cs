@@ -15,6 +15,8 @@ namespace GamePatterns.States
         private IGameObjectFactory _factory;
         private ICamera _camera;
 
+        private WorldBuilder _world;
+
         public bool Completed { get; set; }
 
         public ExploringState(ContentManager content)
@@ -22,14 +24,17 @@ namespace GamePatterns.States
             _factory = new GameObjectFactory();
             _camera = new Camera(new Rectangle(300, 200, 200, 200), 2);
 
-            SpriteMap characterSpriteMap = new SpriteMap(0, content.Load<Texture2D>("character"));
-            SpriteMap worldSpriteMap = new SpriteMap(1, content.Load<Texture2D>("world"));
+            SpriteMap characterSpriteMap = new SpriteMap(content.Load<Texture2D>("character"));
+            characterSpriteMap.Load(0);
+            SpriteMap worldSpriteMap = new SpriteMap(content.Load<Texture2D>("world"));
+            worldSpriteMap.Load(1);
 
-            _objects = new List<IGameObject>()
-            {
-                _factory.GetDecoration(worldSpriteMap, new Vector2(200, 200)),
-                _factory.GetCharacter(characterSpriteMap, new Vector2(100, 100)),
-            };
+            _world = new WorldBuilder(worldSpriteMap);
+
+            var objects = new List<IGameObject>();
+            objects.Add(_factory.GetCharacter(characterSpriteMap, new Vector2(100, 100)));
+            objects.AddRange(_world.GetObjects());
+            _objects = objects;
         }
 
         public void HandleInputCommands(IEnumerable<IGameCommand> commands)
@@ -65,7 +70,7 @@ namespace GamePatterns.States
         {
             var player = _objects.SingleOrDefault(o => o.Has<MovementModule>());
             spriteBatch.Begin(transformMatrix: _camera.GetOffset(player));
-            foreach (IGameObject obj in _objects.Where(o => o.Has<GraphicModule>()))
+            foreach (IGameObject obj in _objects.Where(o => o.Has<GraphicModule>()).OrderBy(o => o.Get<GraphicModule>().DrawIndex))
             {
                 var graphics = obj.Get<GraphicModule>();
                 graphics.Draw(spriteBatch);

@@ -15,7 +15,7 @@ namespace GamePatterns.Objects
         public IGameObject GetCharacter(SpriteMap spriteMap, Vector2 initialPos)
         {
             var collide = new CollideModule();
-            var graphics = new GraphicModule(spriteMap);
+            var graphics = new GraphicModule(spriteMap) { DrawIndex = 1 };
             var movement = new MovementModule();
             var position = new PositionModule(initialPos);
 

@@ -12,6 +12,7 @@ namespace GamePatterns.Modules
     {
         EventHandler<PositionEventArgs> RequestPosition { get; set; }
         Rectangle Bounds { get; }
+        int DrawIndex { get; }
         void Draw(SpriteBatch spriteBatch);
     }
 
@@ -22,6 +23,7 @@ namespace GamePatterns.Modules
         private Vector2 _position;
         private Color _baseColor;
 
+        public int DrawIndex { get; set; }
         public Rectangle Bounds { get; private set; }
         public EventHandler<PositionEventArgs> RequestPosition { get; set; }
 
@@ -31,6 +33,7 @@ namespace GamePatterns.Modules
             _currentSprites = new List<Sprite>();
             _currentSprites.Add(_spriteMap.Sprites.First());
             _baseColor = Color.White;
+            DrawIndex = 0;
         }
 
         private void Recalculate()
