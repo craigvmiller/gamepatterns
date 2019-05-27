@@ -1,5 +1,7 @@
-﻿using GamePatterns.Modules;
+﻿using GamePatterns.Messages;
+using GamePatterns.Modules;
 using Microsoft.Xna.Framework;
+using PubSub.Extension;
 
 namespace GamePatterns.Objects
 {
@@ -25,7 +27,7 @@ namespace GamePatterns.Objects
             _speed = speed;
             _offset = new Vector3(bounds.X, bounds.Y, 0);
         }
-
+        
         public Matrix GetOffset(IGameObject follow) => GetOffset(follow, _speed);
 
         public Matrix GetOffset(IGameObject follow, int speed)
@@ -52,6 +54,12 @@ namespace GamePatterns.Objects
                 if (module.Bounds.Bottom > currentBounds.Bottom)
                 {
                     _offset.Y += _speed;
+                }
+
+                var resultBounds = new Rectangle((int)_offset.X + _bounds.X, (int)_offset.Y + _bounds.Y, _bounds.Width, _bounds.Height);
+                if (currentBounds.X != resultBounds.X || currentBounds.Y != resultBounds.Y)
+                {
+                    this.Publish(new CameraMovedMessage(resultBounds));
                 }
             }
 

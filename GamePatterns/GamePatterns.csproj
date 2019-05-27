@@ -53,6 +53,8 @@
     <Compile Include="Events\InteractEventArgs.cs" />
     <Compile Include="Events\MovementEventArgs.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="Messages\CameraMovedMessage.cs" />
+    <Compile Include="Messages\IGameMessage.cs" />
     <Compile Include="Messages\StateChangedMessage.cs" />
     <Compile Include="Modules\CollideModule.cs" />
     <Compile Include="Modules\GraphicModule.cs" />
@@ -72,7 +74,7 @@
     <Compile Include="Objects\InputHelper.cs" />
     <Compile Include="Objects\Sprite.cs" />
     <Compile Include="Objects\SpriteMap.cs" />
-    <Compile Include="Objects\WorldBuilder.cs" />
+    <Compile Include="Objects\World.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="States\DialogueState.cs" />

@@ -15,25 +15,21 @@ namespace GamePatterns.States
         private IGameObjectFactory _factory;
         private ICamera _camera;
 
-        private WorldBuilder _world;
-
         public bool Completed { get; set; }
 
         public ExploringState(ContentManager content)
         {
             _factory = new GameObjectFactory();
-            _camera = new Camera(new Rectangle(300, 200, 200, 200), 2);
+            _camera = new Camera(new Rectangle(100, 100, 600, 300), 2);
 
             SpriteMap characterSpriteMap = new SpriteMap(content.Load<Texture2D>("character"));
             characterSpriteMap.Load(0);
             SpriteMap worldSpriteMap = new SpriteMap(content.Load<Texture2D>("world"));
             worldSpriteMap.Load(1);
 
-            _world = new WorldBuilder(worldSpriteMap);
-
             var objects = new List<IGameObject>();
+            objects.Add(new World(worldSpriteMap));
             objects.Add(_factory.GetCharacter(characterSpriteMap, new Vector2(100, 100)));
-            objects.AddRange(_world.GetObjects());
             _objects = objects;
         }
 

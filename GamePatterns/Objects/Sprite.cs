@@ -3,21 +3,22 @@ using System.Collections.Generic;
 
 namespace GamePatterns.Objects
 {
-    public class Sprite
+    public struct Sprite
     {
         public int Id { get; set; }
         public Rectangle Rectangle { get; set; }
         public Vector2 Offset { get; set; }
     }
 
-    public class Animation
+    public struct Animation
     {
         public int Id { get; set; }
         public IEnumerable<AnimationFrame> Frames { get; set; }
     }
 
-    public class AnimationFrame : Sprite
+    public struct AnimationFrame
     {
+        public Sprite Sprite { get; set; }
         public int Length { get; set; }
         public int Sequence { get; set; }
     }

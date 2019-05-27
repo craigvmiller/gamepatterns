@@ -31,7 +31,7 @@ namespace GamePatterns.Objects
             Modules = modules;
         }
 
-        public void Update(GameTime gameTime)
+        public virtual void Update(GameTime gameTime)
         {
             foreach (IGameObjectModule module in Modules)
             {

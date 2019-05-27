@@ -2,10 +2,6 @@
 
 namespace GamePatterns.Messages
 {
-    public interface IGameMessage
-    {
-    }
-
     public class StateChangedMessage : IGameMessage
     {
         public Type StateType { get; set; }
