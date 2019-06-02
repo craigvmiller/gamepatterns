@@ -1,13 +1,12 @@
 ﻿using GamePatterns.Objects;
-using System;
 
-namespace GamePatterns.Events
+namespace GamePatterns.Messages
 {
-    public class CollisionEventArgs : EventArgs
+    public class CollisionMessage : IGameMessage
     {
         public CollisionType CollisionType { get; set; }
 
-        public CollisionEventArgs(CollisionType type)
+        public CollisionMessage(CollisionType type)
         {
             CollisionType = type;
         }

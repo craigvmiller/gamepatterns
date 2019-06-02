@@ -18,7 +18,7 @@ namespace GamePatterns.Objects
             var position = new PositionModule();
             var graphics = new GraphicModule(spriteMap);
 
-            graphics.RequestPosition += position.OnRequestPosition;
+            graphics.RequestPosition += position.PositionRequested;
                        
             for (int i = 0; i < 10; i++)
             {

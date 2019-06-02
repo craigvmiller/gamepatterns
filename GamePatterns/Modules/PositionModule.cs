@@ -1,4 +1,4 @@
-﻿using GamePatterns.Events;
+﻿using GamePatterns.Messages;
 using Microsoft.Xna.Framework;
 using System;
 
@@ -6,15 +6,15 @@ namespace GamePatterns.Modules
 {
     public interface IPositionModule : IGameObjectModule
     {
-        EventHandler<PositionEventArgs> OnPositionChanged { get; set; }
-        void OnMove(object sender, PositionEventArgs e);
-        void OnRequestPosition(object sender, PositionEventArgs e);
+        Action<PositionMessage> OnPositionChanged { get; set; }
+        void PositionRequested(PositionMessage message);
+        void Move(MovementMessage message);
     }
 
     public class PositionModule : IPositionModule
     {
         public Vector2 Position { get; private set; }
-        public EventHandler<PositionEventArgs> OnPositionChanged { get; set; }
+        public Action<PositionMessage> OnPositionChanged { get; set; }
 
         public PositionModule()
         {
@@ -29,15 +29,15 @@ namespace GamePatterns.Modules
         {
         }
 
-        public void OnMove(object sender, PositionEventArgs e)
+        public void Move(MovementMessage message)
         {
-            Position = e.Position;
-            if (OnPositionChanged != null) OnPositionChanged.Invoke(this, new PositionEventArgs(Position));
+            Position = message.Position;
+            if (OnPositionChanged != null) OnPositionChanged.Invoke(new PositionMessage(Position));
         }
 
-        public void OnRequestPosition(object sender, PositionEventArgs e)
+        public void PositionRequested(PositionMessage message)
         {
-            e.Position = Position;
+            message.Position = Position;
         }
     }
 }

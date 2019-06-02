@@ -48,13 +48,12 @@
     <Compile Include="Commands\MoveCommand.cs" />
     <Compile Include="Commands\SubmitCommand.cs" />
     <Compile Include="Database\DatabaseContext.cs" />
-    <Compile Include="Events\CollisionEventArgs.cs" />
-    <Compile Include="Events\DrawEventArgs.cs" />
-    <Compile Include="Events\InteractEventArgs.cs" />
-    <Compile Include="Events\MovementEventArgs.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Messages\CameraMovedMessage.cs" />
+    <Compile Include="Messages\CollisionMessage.cs" />
     <Compile Include="Messages\IGameMessage.cs" />
+    <Compile Include="Messages\MovementMessage.cs" />
+    <Compile Include="Messages\PositionMessage.cs" />
     <Compile Include="Messages\StateChangedMessage.cs" />
     <Compile Include="Modules\CollideModule.cs" />
     <Compile Include="Modules\GraphicModule.cs" />
@@ -62,7 +61,6 @@
     <Compile Include="Objects\Camera.cs" />
     <Compile Include="Objects\CollisionType.cs" />
     <Compile Include="Modules\IGameObjectModule.cs" />
-    <Compile Include="Modules\InteractModule.cs" />
     <Compile Include="Modules\MovementModule.cs" />
     <Compile Include="Objects\CollisionDetector.cs" />
     <Compile Include="Objects\DialogueElement.cs" />

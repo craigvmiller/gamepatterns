@@ -1,4 +1,4 @@
-﻿using GamePatterns.Events;
+﻿using GamePatterns.Messages;
 using GamePatterns.Objects;
 using Microsoft.Xna.Framework;
 using System;
@@ -7,8 +7,8 @@ namespace GamePatterns.Modules
 {
     public interface IMovementModule : IGameObjectModule
     {
-        EventHandler<PositionEventArgs> BeforeMove { get; set; }
-        EventHandler<PositionEventArgs> OnMove { get; set; }
+        Action<MovementMessage> BeforeMove { get; set; }
+        Action<MovementMessage> OnMove { get; set; }
     }
 
     public class MovementModule : IGameObjectModule
@@ -16,9 +16,9 @@ namespace GamePatterns.Modules
         private Vector2 _position;
         private int _speed;
 
-        public EventHandler<PositionEventArgs> OnMove { get; set; }
-        public EventHandler<PositionEventArgs> BeforeMove { get; set; }
-        public EventHandler<PositionEventArgs> RequestPosition { get; set; }
+        public Action<MovementMessage> OnMove { get; set; }
+        public Action<MovementMessage> BeforeMove { get; set; }
+        public Action<PositionMessage> RequestPosition { get; set; }
 
         public MovementModule()
         {
@@ -27,21 +27,21 @@ namespace GamePatterns.Modules
 
         public void Move(Direction direction, Vector2 movementVector)
         {
-            PositionEventArgs args = new PositionEventArgs(_position);
             if (RequestPosition != null)
             {
-                RequestPosition.Invoke(this, args);
-                _position = args.Position;
+                PositionMessage p = new PositionMessage(_position);
+                RequestPosition.Invoke(p);
+                _position = p.Position;
             }
 
             Vector2 pos = _position + (movementVector * _speed);
-            args = new PositionEventArgs(pos);
-            if (BeforeMove != null) BeforeMove.Invoke(this, args);
+            MovementMessage m = new MovementMessage(pos);
+            if (BeforeMove != null) BeforeMove.Invoke(m);
 
-            if (!args.Cancel)
+            if (!m.Cancel)
             {
                 _position = pos;
-                if (OnMove != null) OnMove.Invoke(this, new PositionEventArgs(_position));
+                if (OnMove != null) OnMove.Invoke(m);
             }
         }
 

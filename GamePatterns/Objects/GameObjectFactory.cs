@@ -19,11 +19,11 @@ namespace GamePatterns.Objects
             var movement = new MovementModule();
             var position = new PositionModule(initialPos);
 
-            graphics.RequestPosition += position.OnRequestPosition;
+            graphics.RequestPosition += position.PositionRequested;
 
-            movement.BeforeMove += collide.BeforeMove;
-            movement.RequestPosition += position.OnRequestPosition;
-            movement.OnMove += position.OnMove;
+            movement.BeforeMove += collide.CheckMovement;
+            movement.RequestPosition += position.PositionRequested;
+            movement.OnMove += position.Move;
             
             return new GameObject(collide, graphics, movement, position);
         }
@@ -33,7 +33,7 @@ namespace GamePatterns.Objects
             var graphics = new GraphicModule(spriteMap);
             var position = new PositionModule(initialPos);
 
-            graphics.RequestPosition += position.OnRequestPosition;
+            graphics.RequestPosition += position.PositionRequested;
 
             return new GameObject(graphics, position);
         }
@@ -44,7 +44,7 @@ namespace GamePatterns.Objects
             var graphics = new GraphicModule(spriteMap);
             var position = new PositionModule(initialPos);
 
-            graphics.RequestPosition += position.OnRequestPosition;
+            graphics.RequestPosition += position.PositionRequested;
 
             return new GameObject(collide, graphics, position);
         }

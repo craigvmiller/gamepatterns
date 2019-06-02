@@ -1,4 +1,5 @@
-﻿using GamePatterns.Modules;
+﻿using GamePatterns.Messages;
+using GamePatterns.Modules;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,12 +31,12 @@ namespace GamePatterns.Objects
                     {
                         if (moduleA.OnCollision != null)
                         {
-                            moduleA.OnCollision.Invoke(moduleB, new Events.CollisionEventArgs(moduleB.CollisionType));
+                            moduleA.OnCollision.Invoke(new CollisionMessage(moduleB.CollisionType));
                         }
 
                         if (moduleB.OnCollision != null)
                         {
-                            moduleB.OnCollision.Invoke(moduleA, new Events.CollisionEventArgs(moduleA.CollisionType));
+                            moduleB.OnCollision.Invoke(new CollisionMessage(moduleA.CollisionType));
                         }
                     }
                 }

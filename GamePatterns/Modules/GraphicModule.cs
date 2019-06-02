@@ -1,4 +1,4 @@
-﻿using GamePatterns.Events;
+﻿using GamePatterns.Messages;
 using GamePatterns.Objects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -10,7 +10,7 @@ namespace GamePatterns.Modules
 {
     public interface IGraphicModule : IGameObjectModule
     {
-        EventHandler<PositionEventArgs> RequestPosition { get; set; }
+        Action<PositionMessage> RequestPosition { get; set; }
         Rectangle Bounds { get; }
         int DrawIndex { get; }
         void Draw(SpriteBatch spriteBatch);
@@ -24,9 +24,9 @@ namespace GamePatterns.Modules
 
         public int DrawIndex { get; set; }
         public Rectangle Bounds { get; private set; }
-        public EventHandler<PositionEventArgs> RequestPosition { get; set; }
+        public Action<PositionMessage> RequestPosition { get; set; }
         public List<Sprite> CurrentSprites { get; set; }
-        
+
         public GraphicModule(SpriteMap spriteMap)
         {
             _spriteMap = spriteMap;
@@ -40,9 +40,9 @@ namespace GamePatterns.Modules
         {
             if (RequestPosition != null)
             {
-                PositionEventArgs args = new PositionEventArgs(_position);
-                RequestPosition.Invoke(this, args);
-                _position = args.Position;
+                PositionMessage message = new PositionMessage(_position);
+                RequestPosition.Invoke(message);
+                _position = message.Position;
             }
 
             Rectangle bounds = new Rectangle();
@@ -81,7 +81,7 @@ namespace GamePatterns.Modules
                 spriteBatch.Draw(_spriteMap.Texture, _position + sprite.Offset, sprite.Rectangle, _baseColor);
             }
         }
-        
+
         public void Update(GameTime gameTime)
         {
             Recalculate();
