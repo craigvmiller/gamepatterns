@@ -24,12 +24,15 @@ namespace GamePatterns.States
 
             SpriteMap characterSpriteMap = new SpriteMap(content.Load<Texture2D>("character"));
             characterSpriteMap.Load(0);
+            var character = _factory.GetCharacter(characterSpriteMap, new Vector2(100, 100));
+
             SpriteMap worldSpriteMap = new SpriteMap(content.Load<Texture2D>("world"));
             worldSpriteMap.Load(1);
+            var world = _factory.GetWorld(worldSpriteMap, new Vector2(0, 0));
 
             var objects = new List<IGameObject>();
-            objects.Add(new World(worldSpriteMap));
-            objects.Add(_factory.GetCharacter(characterSpriteMap, new Vector2(100, 100)));
+            objects.Add(character);
+            objects.Add(world);
             _objects = objects;
         }
 

@@ -18,6 +18,11 @@ namespace GamePatterns.Objects
                 || (b.Bottom >= a.Top && b.Top <= a.Bottom));
         }
 
+        public static void CheckMovement(MovementMessage message, IGameObject movingObject, IEnumerable<IGameObject> collidingObjects)
+        {
+
+        }
+
         public static void CheckForCollisions(IEnumerable<IGameObject> objects)
         {
             IEnumerable<IGameObject> collideObjects = objects.Where(o => o.Has<CollideModule>());
