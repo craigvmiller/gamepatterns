@@ -24,16 +24,24 @@ namespace GamePatterns.States
 
             SpriteMap characterSpriteMap = new SpriteMap(content.Load<Texture2D>("character"));
             characterSpriteMap.Load(0);
-            var character = _factory.GetCharacter(characterSpriteMap, new Vector2(100, 100));
+            var character = _factory.GetCharacter(characterSpriteMap, new Vector2(100, 100), new Rectangle(100, 100, 32, 32), CollisionType.Wall);
+            character.Get<ICollideModule>().CheckCollision += CheckMovement;
 
             SpriteMap worldSpriteMap = new SpriteMap(content.Load<Texture2D>("world"));
             worldSpriteMap.Load(1);
             var world = _factory.GetWorld(worldSpriteMap, new Vector2(0, 0));
+            var wall = _factory.GetProp(worldSpriteMap, new Vector2(0, 0), new Rectangle(0, 0, 32, 32), CollisionType.Wall);
 
             var objects = new List<IGameObject>();
             objects.Add(character);
             objects.Add(world);
+            objects.Add(wall);
             _objects = objects;
+        }
+
+        private bool CheckMovement(Rectangle hitBox)
+        {
+            return CollisionDetector.HasCollision(hitBox, _objects.Where(o => o.Has<ICollideModule>()).Select(o => o.Get<ICollideModule>().HitBox));
         }
 
         public void HandleInputCommands(IEnumerable<IGameCommand> commands)
@@ -57,8 +65,6 @@ namespace GamePatterns.States
 
         public void Update(GameTime gameTime)
         {
-            CollisionDetector.CheckForCollisions(_objects);
-
             foreach (IGameObject obj in _objects)
             {
                 obj.Update(gameTime);

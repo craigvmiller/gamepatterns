@@ -18,9 +18,29 @@ namespace GamePatterns.Objects
                 || (b.Bottom >= a.Top && b.Top <= a.Bottom));
         }
 
-        public static void CheckMovement(MovementMessage message, IGameObject movingObject, IEnumerable<IGameObject> collidingObjects)
+        public static bool HasCollision(Rectangle main, IEnumerable<Rectangle> colliders)
         {
+            foreach (Rectangle rect in colliders)
+            {
+                if (HasCollision(main, rect))
+                    return true;
+            }
+            return false;
+        }
 
+        public static bool HasCollision(IGameObject mainObj, IEnumerable<IGameObject> objects)
+        {
+            if (!mainObj.Has<ICollideModule>()) return false;
+            ICollideModule mainModule = mainObj.Get<ICollideModule>();
+            foreach (IGameObject obj in objects.Where(o => o.Has<CollideModule>()))
+            {
+                ICollideModule collideModule = obj.Get<ICollideModule>();
+                if (HasCollision(mainModule.HitBox, collideModule.HitBox))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public static void CheckForCollisions(IEnumerable<IGameObject> objects)

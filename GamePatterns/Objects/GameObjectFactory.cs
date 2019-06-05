@@ -1,22 +1,21 @@
 ﻿using GamePatterns.Modules;
 using Microsoft.Xna.Framework;
-using PubSub.Extension;
 
 namespace GamePatterns.Objects
 {
     public interface IGameObjectFactory
     {
-        IGameObject GetCharacter(SpriteMap spriteMap, Vector2 initialPos);
+        IGameObject GetCharacter(SpriteMap spriteMap, Vector2 initialPos, Rectangle hitBox, CollisionType collisionType);
         IGameObject GetWorld(SpriteMap spriteMap, Vector2 initialPos);
         IGameObject GetDecoration(SpriteMap spriteMap, Vector2 initialPos);
-        IGameObject GetProp(SpriteMap spriteMap, Vector2 initialPos);
+        IGameObject GetProp(SpriteMap spriteMap, Vector2 initialPos, Rectangle hitBox, CollisionType collisionType);
     }
 
     public class GameObjectFactory : IGameObjectFactory
     {
-        public IGameObject GetCharacter(SpriteMap spriteMap, Vector2 initialPos)
+        public IGameObject GetCharacter(SpriteMap spriteMap, Vector2 initialPos, Rectangle hitBox, CollisionType collisionType)
         {
-            var collide = new CollideModule();
+            var collide = new CollideModule(hitBox, collisionType);
             var equipment = new EquipmentModule();
             var graphics = new GraphicModule(spriteMap) { DrawIndex = 1 };
             var movement = new MovementModule();
@@ -59,9 +58,9 @@ namespace GamePatterns.Objects
             return new GameObject(graphics, position);
         }
 
-        public IGameObject GetProp(SpriteMap spriteMap, Vector2 initialPos)
+        public IGameObject GetProp(SpriteMap spriteMap, Vector2 initialPos, Rectangle hitBox, CollisionType collisionType)
         {
-            var collide = new CollideModule();
+            var collide = new CollideModule(hitBox, collisionType);
             var graphics = new GraphicModule(spriteMap);
             var position = new PositionModule(initialPos);
 

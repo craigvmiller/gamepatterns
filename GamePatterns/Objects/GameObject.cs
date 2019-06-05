@@ -46,7 +46,7 @@ namespace GamePatterns.Objects
 
         public T Get<T>() where T : class, IGameObjectModule
         {
-            return (T)Modules.SingleOrDefault(m => m.GetType() == typeof(T));
+            return (T)Modules.SingleOrDefault(m => m as T != null);
         }
     }
 }
