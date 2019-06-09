@@ -10,7 +10,7 @@ namespace GamePatterns.Modules
         CollisionType CollisionType { get; }
         Rectangle HitBox { get; }
         Action<CollisionMessage> OnCollision { get; set; }
-        Func<Rectangle, bool> CheckCollision { get; set; }
+        Func<Vector2, ICollideModule, CollisionType> CheckCollision { get; set; }
         void CheckMovement(MovementMessage message);
     }
 
@@ -19,7 +19,7 @@ namespace GamePatterns.Modules
         public CollisionType CollisionType { get; private set; }
         public Rectangle HitBox { get; private set; }
         public Action<CollisionMessage> OnCollision { get; set; }
-        public Func<Rectangle, bool> CheckCollision { get; set; }
+        public Func<Vector2, ICollideModule, CollisionType> CheckCollision { get; set; }
 
         public CollideModule(Rectangle hitBox, CollisionType collisionType)
         {
@@ -35,7 +35,9 @@ namespace GamePatterns.Modules
         {
             if (CheckCollision != null)
             {
-                message.Cancel = CheckCollision.Invoke(new Rectangle((int)message.Position.X, (int)message.Position.Y, HitBox.Width, HitBox.Height));
+                var type = CheckCollision.Invoke(message.Position, this);
+                if (type == CollisionType.Wall)
+                    message.Cancel = true;
             }
         }
     }

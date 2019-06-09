@@ -41,7 +41,7 @@ namespace GamePatterns.Objects
 
         public bool Has<T>() where T : class, IGameObjectModule
         {
-            return Modules.Any(m => m.GetType() == typeof(T));
+            return Modules.Any(m => m as T != null);
         }
 
         public T Get<T>() where T : class, IGameObjectModule

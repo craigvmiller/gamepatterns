@@ -18,14 +18,16 @@ namespace GamePatterns.Objects
                 || (b.Bottom >= a.Top && b.Top <= a.Bottom));
         }
 
-        public static bool HasCollision(Rectangle main, IEnumerable<Rectangle> colliders)
+        public static IEnumerable<ICollideModule> CollidesWith(Vector2 position, ICollideModule main, IEnumerable<ICollideModule> check)
         {
-            foreach (Rectangle rect in colliders)
+            Rectangle accurateHitBox = new Rectangle((int)position.X, (int)position.Y, main.HitBox.Width, main.HitBox.Height);
+            foreach (ICollideModule module in check)
             {
-                if (HasCollision(main, rect))
-                    return true;
+                if (HasCollision(accurateHitBox, module.HitBox))
+                {
+                    yield return module;
+                }
             }
-            return false;
         }
 
         public static bool HasCollision(IGameObject mainObj, IEnumerable<IGameObject> objects)
@@ -41,31 +43,6 @@ namespace GamePatterns.Objects
                 }
             }
             return false;
-        }
-
-        public static void CheckForCollisions(IEnumerable<IGameObject> objects)
-        {
-            IEnumerable<IGameObject> collideObjects = objects.Where(o => o.Has<CollideModule>());
-            foreach (IGameObject a in collideObjects)
-            {
-                CollideModule moduleA = a.Get<CollideModule>();
-                foreach (IGameObject b in collideObjects.Where(o => o != a))
-                {
-                    CollideModule moduleB = b.Get<CollideModule>();
-                    if (HasCollision(moduleA.HitBox, moduleB.HitBox))
-                    {
-                        if (moduleA.OnCollision != null)
-                        {
-                            moduleA.OnCollision.Invoke(new CollisionMessage(moduleB.CollisionType));
-                        }
-
-                        if (moduleB.OnCollision != null)
-                        {
-                            moduleB.OnCollision.Invoke(new CollisionMessage(moduleA.CollisionType));
-                        }
-                    }
-                }
-            }
         }
     }
 }

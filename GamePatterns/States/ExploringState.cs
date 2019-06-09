@@ -25,12 +25,12 @@ namespace GamePatterns.States
             SpriteMap characterSpriteMap = new SpriteMap(content.Load<Texture2D>("character"));
             characterSpriteMap.Load(0);
             var character = _factory.GetCharacter(characterSpriteMap, new Vector2(100, 100), new Rectangle(100, 100, 32, 32), CollisionType.Wall);
-            character.Get<ICollideModule>().CheckCollision += CheckMovement;
+            character.Get<ICollideModule>().CheckCollision += CheckCollision;
 
             SpriteMap worldSpriteMap = new SpriteMap(content.Load<Texture2D>("world"));
             worldSpriteMap.Load(1);
             var world = _factory.GetWorld(worldSpriteMap, new Vector2(0, 0));
-            var wall = _factory.GetProp(worldSpriteMap, new Vector2(0, 0), new Rectangle(0, 0, 32, 32), CollisionType.Wall);
+            var wall = _factory.GetProp(worldSpriteMap, new Vector2(-100, -100), new Rectangle(-100, -100, 32, 32), CollisionType.Wall);
 
             var objects = new List<IGameObject>();
             objects.Add(character);
@@ -39,9 +39,15 @@ namespace GamePatterns.States
             _objects = objects;
         }
 
-        private bool CheckMovement(Rectangle hitBox)
+        private CollisionType CheckCollision(Vector2 position, ICollideModule module)
         {
-            return CollisionDetector.HasCollision(hitBox, _objects.Where(o => o.Has<ICollideModule>()).Select(o => o.Get<ICollideModule>().HitBox));
+            var colliders = _objects.Where(o => o.Has<ICollideModule>())
+                .Select(o => o.Get<ICollideModule>())
+                .Where(m => m != module);
+            var collisions = CollisionDetector.CollidesWith(position, module, colliders);
+            if (collisions.Any(c => c.CollisionType == CollisionType.Wall))
+                return CollisionType.Wall;
+            return CollisionType.None;
         }
 
         public void HandleInputCommands(IEnumerable<IGameCommand> commands)
