@@ -6,6 +6,43 @@ using System.Linq;
 
 namespace GamePatterns.Objects
 {
+    public interface ICollisionHandler
+    {
+        void FixCollisions(IEnumerable<IGameObject> objects);
+    }
+
+    public class CollisionHandler : ICollisionHandler
+    {
+        public void FixCollisions(IEnumerable<IGameObject> objects)
+        {
+            foreach (IGameObject main in objects.Where(o => o.Has<ICollideModule>() && o.Has<IPositionModule>()))
+            {
+                Vector2 pos = main.Get<IPositionModule>().Position;
+                Rectangle hitBox = main.Get<ICollideModule>().HitBox;
+                Rectangle collider = new Rectangle((int)pos.X, (int)pos.Y, hitBox.Width, hitBox.Height);
+                foreach (IGameObject other in objects.Where(o => o != main && o.Has<ICollideModule>() && o.Has<IPositionModule>()))
+                {
+                    Vector2 otherPos = other.Get<IPositionModule>().Position;
+                    Rectangle otherHitBox = other.Get<ICollideModule>().HitBox;
+                    Rectangle otherCollider = new Rectangle((int)otherPos.X, (int)otherPos.Y, otherHitBox.Width, otherHitBox.Height);
+                    if (collider.Intersects(otherCollider))
+                    {
+                        Vector2 prev = main.Get<IPositionModule>().PreviousPosition;
+                        Rectangle previousCollider = new Rectangle((int)prev.X, (int)prev.Y, hitBox.Width, hitBox.Height);
+                        if (previousCollider.Intersects(otherCollider))
+                        {
+                            // calculate new position
+                        }
+                        else
+                        {
+                            main.Get<IPositionModule>().Reposition(prev);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     public static class CollisionDetector
     {
         public static bool HasCollision(Rectangle a, Rectangle b)

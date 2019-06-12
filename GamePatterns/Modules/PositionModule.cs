@@ -6,14 +6,32 @@ namespace GamePatterns.Modules
 {
     public interface IPositionModule : IGameObjectModule
     {
+        Vector2 Position { get; set; }
+        Vector2 PreviousPosition { get; set; }
         Action<PositionMessage> OnPositionChanged { get; set; }
         void PositionRequested(PositionMessage message);
         void Move(MovementMessage message);
+        void Reposition(Vector2 position);
     }
 
     public class PositionModule : IPositionModule
     {
-        public Vector2 Position { get; private set; }
+        private Vector2 _previousPosition;
+        private Vector2 _position;
+
+        public Vector2 Position
+        {
+            get => _position;
+            set
+            {
+                _position = value;
+                if (OnPositionChanged != null)
+                {
+                    OnPositionChanged.Invoke(new PositionMessage(_position));
+                }
+            }
+        }
+        public Vector2 PreviousPosition { get => _previousPosition; set => _previousPosition = value; }
         public Action<PositionMessage> OnPositionChanged { get; set; }
 
         public PositionModule()
@@ -31,13 +49,19 @@ namespace GamePatterns.Modules
 
         public void Move(MovementMessage message)
         {
+            PreviousPosition = Position;
             Position = message.Position;
-            if (OnPositionChanged != null) OnPositionChanged.Invoke(new PositionMessage(Position));
         }
 
         public void PositionRequested(PositionMessage message)
         {
             message.Position = Position;
+        }
+
+        public void Reposition(Vector2 position)
+        {
+            PreviousPosition = Position;
+            Position = position;
         }
     }
 }
