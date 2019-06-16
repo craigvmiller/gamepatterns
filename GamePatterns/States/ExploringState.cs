@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using GamePatterns.Commands;
-using GamePatterns.Modules;
 using GamePatterns.Objects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -20,12 +18,13 @@ namespace GamePatterns.States
         public ExploringState(ContentManager content)
         {
             _factory = new GameObjectFactory();
-            _camera = new Camera(new Rectangle(100, 100, 600, 300), 2);
-
+            
             SpriteMap characterSpriteMap = new SpriteMap(content.Load<Texture2D>("character"));
             characterSpriteMap.Load(0);
             var character = _factory.GetCharacter(characterSpriteMap, new Vector2(100, 100), new Rectangle(100, 100, 32, 32), CollisionType.Wall);
-            character.Get<ICollideModule>().CheckCollision += CheckCollision;
+
+            _camera = new Camera(new Rectangle(100, 100, 600, 300), 2);
+            _camera.Follow(character);
 
             SpriteMap worldSpriteMap = new SpriteMap(content.Load<Texture2D>("world"));
             worldSpriteMap.Load(1);
@@ -37,17 +36,6 @@ namespace GamePatterns.States
             objects.Add(world);
             objects.Add(wall);
             _objects = objects;
-        }
-
-        private CollisionType CheckCollision(Vector2 position, ICollideModule module)
-        {
-            var colliders = _objects.Where(o => o.Has<ICollideModule>())
-                .Select(o => o.Get<ICollideModule>())
-                .Where(m => m != module);
-            var collisions = CollisionDetector.CollidesWith(position, module, colliders);
-            if (collisions.Any(c => c.CollisionType == CollisionType.Wall))
-                return CollisionType.Wall;
-            return CollisionType.None;
         }
 
         public void HandleInputCommands(IEnumerable<IGameCommand> commands)
@@ -79,12 +67,10 @@ namespace GamePatterns.States
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            var player = _objects.SingleOrDefault(o => o.Has<MovementModule>());
-            spriteBatch.Begin(transformMatrix: _camera.GetOffset(player));
-            foreach (IGameObject obj in _objects.Where(o => o.Has<GraphicModule>()).OrderBy(o => o.Get<GraphicModule>().DrawIndex))
+            spriteBatch.Begin(transformMatrix: _camera.GetOffset());
+            foreach (IGameObject obj in _objects)
             {
-                var graphics = obj.Get<GraphicModule>();
-                graphics.Draw(spriteBatch);
+                spriteBatch.Draw(obj);
             }
             spriteBatch.End();
         }

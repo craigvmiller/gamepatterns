@@ -1,4 +1,4 @@
-﻿using GamePatterns.Modules;
+﻿using GamePatterns.Components;
 using Microsoft.Xna.Framework;
 
 namespace GamePatterns.Objects
@@ -15,33 +15,24 @@ namespace GamePatterns.Objects
     {
         public IGameObject GetCharacter(SpriteMap spriteMap, Vector2 initialPos, Rectangle hitBox, CollisionType collisionType)
         {
-            var collide = new CollideModule(hitBox, collisionType);
-            var equipment = new EquipmentModule();
-            var graphics = new GraphicModule(spriteMap) { DrawIndex = 1 };
-            var movement = new MovementModule();
-            var position = new PositionModule(initialPos);
-
-            graphics.RequestPosition += position.PositionRequested;
-
-            movement.BeforeMove += collide.CheckMovement;
-            movement.RequestPosition += position.PositionRequested;
-            movement.OnMove += position.Move;
-            
+            var collide = new CollideComponent(hitBox, collisionType);
+            var equipment = new EquipmentComponent();
+            var graphics = new GraphicComponent(spriteMap, Color.White);
+            var movement = new MovementComponent(2);
+            var position = new PositionComponent(initialPos);
             return new GameObject(collide, equipment, graphics, movement, position);
         }
 
         public IGameObject GetWorld(SpriteMap spriteMap, Vector2 initialPos)
         {
-            var position = new PositionModule(initialPos);
-            var graphics = new GraphicModule(spriteMap);
-
-            graphics.RequestPosition += position.PositionRequested;
+            var position = new PositionComponent(initialPos);
+            var graphics = new GraphicComponent(spriteMap, Color.White);
 
             for (int i = 0; i < 10; i++)
             {
                 for (int j = 0; j < 10; j++)
                 {
-                    graphics.CurrentSprites.Add(new Sprite() { Offset = new Vector2(j * 32, i * 32), Rectangle = new Rectangle(0, 0, 32, 32) });
+                    graphics.Sprites.Add(new Sprite() { Offset = new Vector2(j * 32, i * 32), Rectangle = new Rectangle(0, 0, 32, 32) });
                 }
             }
 
@@ -50,22 +41,16 @@ namespace GamePatterns.Objects
 
         public IGameObject GetDecoration(SpriteMap spriteMap, Vector2 initialPos)
         {
-            var graphics = new GraphicModule(spriteMap);
-            var position = new PositionModule(initialPos);
-
-            graphics.RequestPosition += position.PositionRequested;
-
+            var graphics = new GraphicComponent(spriteMap, Color.White);
+            var position = new PositionComponent(initialPos);
             return new GameObject(graphics, position);
         }
 
         public IGameObject GetProp(SpriteMap spriteMap, Vector2 initialPos, Rectangle hitBox, CollisionType collisionType)
         {
-            var collide = new CollideModule(hitBox, collisionType);
-            var graphics = new GraphicModule(spriteMap);
-            var position = new PositionModule(initialPos);
-
-            graphics.RequestPosition += position.PositionRequested;
-
+            var collide = new CollideComponent(hitBox, collisionType);
+            var graphics = new GraphicComponent(spriteMap, Color.White);
+            var position = new PositionComponent(initialPos);
             return new GameObject(collide, graphics, position);
         }
     }

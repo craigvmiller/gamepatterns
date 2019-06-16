@@ -1,7 +1,6 @@
-﻿using GamePatterns.Modules;
+﻿using GamePatterns.Components;
 using GamePatterns.Objects;
 using Microsoft.Xna.Framework;
-using System.Linq;
 
 namespace GamePatterns.Commands
 {
@@ -18,10 +17,12 @@ namespace GamePatterns.Commands
 
         public void Execute(IGameObject gameObject)
         {
-            var module = gameObject.Get<MovementModule>();
-            if (module != null)
+            IPositionComponent position = gameObject.Get<IPositionComponent>();
+            IMovementComponent movement = gameObject.Get<IMovementComponent>();
+
+            if (position != null && movement != null)
             {
-                module.Move(_direction, _movementVector);
+                position.Position += _movementVector * movement.MovementSpeed;
             }
         }
     }

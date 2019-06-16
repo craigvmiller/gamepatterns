@@ -1,4 +1,4 @@
-﻿using GamePatterns.Modules;
+﻿using GamePatterns.Components;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,46 +7,46 @@ namespace GamePatterns.Objects
 {
     public interface IGameObject
     {
-        bool Has<T>() where T : class, IGameObjectModule;
-        T Get<T>() where T : class, IGameObjectModule;
+        bool Has<T>() where T : class, IGameObjectComponent;
+        T Get<T>() where T : class, IGameObjectComponent;
         void Update(GameTime gameTime);
     }
 
     public class GameObject : IGameObject
     {
-        protected IEnumerable<IGameObjectModule> Modules;
+        protected IEnumerable<IGameObjectComponent> Components;
 
         public GameObject()
         {
-            Modules = new List<IGameObjectModule>();
+            Components = new List<IGameObjectComponent>();
         }
 
-        public GameObject(IEnumerable<IGameObjectModule> modules)
+        public GameObject(IEnumerable<IGameObjectComponent> components)
         {
-            Modules = modules;
+            Components = components;
         }
 
-        public GameObject(params IGameObjectModule[] modules)
+        public GameObject(params IGameObjectComponent[] components)
         {
-            Modules = modules;
+            Components = components;
         }
 
         public virtual void Update(GameTime gameTime)
         {
-            foreach (IGameObjectModule module in Modules)
+            foreach (IGameObjectComponent component in Components)
             {
-                module.Update(gameTime);
+                component.Update(gameTime);
             }
         }
 
-        public bool Has<T>() where T : class, IGameObjectModule
+        public bool Has<T>() where T : class, IGameObjectComponent
         {
-            return Modules.Any(m => m as T != null);
+            return Components.Any(m => m as T != null);
         }
 
-        public T Get<T>() where T : class, IGameObjectModule
+        public T Get<T>() where T : class, IGameObjectComponent
         {
-            return (T)Modules.SingleOrDefault(m => m as T != null);
+            return (T)Components.SingleOrDefault(m => m as T != null);
         }
     }
 }

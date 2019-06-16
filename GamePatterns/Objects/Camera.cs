@@ -1,5 +1,5 @@
 ﻿using GamePatterns.Messages;
-using GamePatterns.Modules;
+using GamePatterns.Components;
 using Microsoft.Xna.Framework;
 using PubSub.Extension;
 
@@ -7,8 +7,8 @@ namespace GamePatterns.Objects
 {
     public interface ICamera
     {
-        Matrix GetOffset(IGameObject follow);
-        Matrix GetOffset(IGameObject follow, int speed);
+        void Follow(IGameObject follow);
+        Matrix GetOffset();
     }
 
     public class Camera : ICamera
@@ -28,43 +28,18 @@ namespace GamePatterns.Objects
             _offset = new Vector3(bounds.X, bounds.Y, 0);
         }
         
-        public Matrix GetOffset(IGameObject follow) => GetOffset(follow, _speed);
-
-        public Matrix GetOffset(IGameObject follow, int speed)
+        public Matrix GetOffset()
         {
-            if (follow.Has<GraphicModule>())
-            {
-                var module = follow.Get<GraphicModule>();
-                var currentBounds = new Rectangle((int)_offset.X + _bounds.X, (int)_offset.Y + _bounds.Y, _bounds.Width, _bounds.Height);
-                if (module.Bounds.Left < currentBounds.Left)
-                {
-                    _offset.X -= _speed;
-                }
-
-                if (module.Bounds.Right > currentBounds.Right)
-                {
-                    _offset.X += _speed;
-                }
-
-                if (module.Bounds.Top < currentBounds.Top)
-                {
-                    _offset.Y -= _speed;
-                }
-
-                if (module.Bounds.Bottom > currentBounds.Bottom)
-                {
-                    _offset.Y += _speed;
-                }
-
-                var resultBounds = new Rectangle((int)_offset.X + _bounds.X, (int)_offset.Y + _bounds.Y, _bounds.Width, _bounds.Height);
-                if (currentBounds.X != resultBounds.X || currentBounds.Y != resultBounds.Y)
-                {
-                    this.Publish(new CameraMovedMessage(resultBounds));
-                }
-            }
-
             var m = Matrix.CreateTranslation(_offset);
             return Matrix.Invert(m);
+        }
+
+        public void Follow(IGameObject follow)
+        {
+            if (follow.Has<IPositionComponent>())
+            {
+                //follow.Get<IPositionComponent>().OnPositionChanged += (PositionMessage p) => _offset = new Vector3(p.Position, 0);
+            }
         }
     }
 }

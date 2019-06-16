@@ -2,19 +2,16 @@
 using Microsoft.Xna.Framework;
 using System;
 
-namespace GamePatterns.Modules
+namespace GamePatterns.Components
 {
-    public interface IPositionModule : IGameObjectModule
+    public interface IPositionComponent : IGameObjectComponent
     {
         Vector2 Position { get; set; }
-        Vector2 PreviousPosition { get; set; }
+        Vector2 PreviousPosition { get; }
         Action<PositionMessage> OnPositionChanged { get; set; }
-        void PositionRequested(PositionMessage message);
-        void Move(MovementMessage message);
-        void Reposition(Vector2 position);
     }
 
-    public class PositionModule : IPositionModule
+    public class PositionComponent : IPositionComponent
     {
         private Vector2 _previousPosition;
         private Vector2 _position;
@@ -24,6 +21,7 @@ namespace GamePatterns.Modules
             get => _position;
             set
             {
+                _previousPosition = _position;
                 _position = value;
                 if (OnPositionChanged != null)
                 {
@@ -31,37 +29,20 @@ namespace GamePatterns.Modules
                 }
             }
         }
-        public Vector2 PreviousPosition { get => _previousPosition; set => _previousPosition = value; }
+        public Vector2 PreviousPosition { get => _previousPosition; }
         public Action<PositionMessage> OnPositionChanged { get; set; }
 
-        public PositionModule()
+        public PositionComponent()
         {
         }
 
-        public PositionModule(Vector2 initialPos)
+        public PositionComponent(Vector2 initialPos)
         {
             Position = initialPos;
         }
 
         public void Update(GameTime gameTime)
         {
-        }
-
-        public void Move(MovementMessage message)
-        {
-            PreviousPosition = Position;
-            Position = message.Position;
-        }
-
-        public void PositionRequested(PositionMessage message)
-        {
-            message.Position = Position;
-        }
-
-        public void Reposition(Vector2 position)
-        {
-            PreviousPosition = Position;
-            Position = position;
         }
     }
 }

@@ -1,9 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
 
-namespace GamePatterns.Modules
+namespace GamePatterns.Components
 {
-    public interface IGameObjectModule
+    public interface IGameObjectComponent
     {
         void Update(GameTime gameTime);
     }

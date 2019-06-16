@@ -4,9 +4,9 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
-namespace GamePatterns.Modules
+namespace GamePatterns.Components
 {
-    public interface IEquipmentModule : IGameObjectModule
+    public interface IEquipmentComponent : IGameObjectComponent
     {
         Action<ItemChangedMessage> OnEquip { get; set; }
         Action<ItemChangedMessage> OnUnequip { get; set; }
@@ -15,13 +15,13 @@ namespace GamePatterns.Modules
         void Unequip(IGameObject obj);
     }
 
-    public class EquipmentModule : IEquipmentModule
+    public class EquipmentComponent : IEquipmentComponent
     {
         public List<IGameObject> GameObjects { get; set; }
         public Action<ItemChangedMessage> OnEquip { get; set; }
         public Action<ItemChangedMessage> OnUnequip { get; set; }
 
-        public EquipmentModule()
+        public EquipmentComponent()
         {
             GameObjects = new List<IGameObject>();
         }

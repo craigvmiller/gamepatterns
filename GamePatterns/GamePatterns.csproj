@@ -64,7 +64,7 @@
     <Compile Include="Modules\PositionModule.cs" />
     <Compile Include="Objects\Camera.cs" />
     <Compile Include="Objects\CollisionType.cs" />
-    <Compile Include="Modules\IGameObjectModule.cs" />
+    <Compile Include="Modules\IGameObjectComponent.cs" />
     <Compile Include="Modules\MovementModule.cs" />
     <Compile Include="Objects\CollisionDetector.cs" />
     <Compile Include="Objects\DialogueElement.cs" />
@@ -75,6 +75,7 @@
     <Compile Include="Objects\GameObjectFactory.cs" />
     <Compile Include="Objects\InputHelper.cs" />
     <Compile Include="Objects\Sprite.cs" />
+    <Compile Include="Objects\SpriteBatchExtensions.cs" />
     <Compile Include="Objects\SpriteMap.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

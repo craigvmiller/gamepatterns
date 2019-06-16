@@ -1,4 +1,4 @@
-﻿using GamePatterns.Modules;
+﻿using GamePatterns.Components;
 using GamePatterns.Objects;
 using System.Linq;
 

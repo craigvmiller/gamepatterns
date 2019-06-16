@@ -1,5 +1,5 @@
 ﻿using GamePatterns.Messages;
-using GamePatterns.Modules;
+using GamePatterns.Components;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,19 +15,19 @@ namespace GamePatterns.Objects
     {
         public void FixCollisions(IEnumerable<IGameObject> objects)
         {
-            foreach (IGameObject main in objects.Where(o => o.Has<ICollideModule>() && o.Has<IPositionModule>()))
+            foreach (IGameObject main in objects.Where(o => o.Has<ICollideComponent>() && o.Has<IPositionComponent>()))
             {
-                Vector2 pos = main.Get<IPositionModule>().Position;
-                Rectangle hitBox = main.Get<ICollideModule>().HitBox;
+                Vector2 pos = main.Get<IPositionComponent>().Position;
+                Rectangle hitBox = main.Get<ICollideComponent>().HitBox;
                 Rectangle collider = new Rectangle((int)pos.X, (int)pos.Y, hitBox.Width, hitBox.Height);
-                foreach (IGameObject other in objects.Where(o => o != main && o.Has<ICollideModule>() && o.Has<IPositionModule>()))
+                foreach (IGameObject other in objects.Where(o => o != main && o.Has<ICollideComponent>() && o.Has<IPositionComponent>()))
                 {
-                    Vector2 otherPos = other.Get<IPositionModule>().Position;
-                    Rectangle otherHitBox = other.Get<ICollideModule>().HitBox;
+                    Vector2 otherPos = other.Get<IPositionComponent>().Position;
+                    Rectangle otherHitBox = other.Get<ICollideComponent>().HitBox;
                     Rectangle otherCollider = new Rectangle((int)otherPos.X, (int)otherPos.Y, otherHitBox.Width, otherHitBox.Height);
                     if (collider.Intersects(otherCollider))
                     {
-                        Vector2 prev = main.Get<IPositionModule>().PreviousPosition;
+                        Vector2 prev = main.Get<IPositionComponent>().PreviousPosition;
                         Rectangle previousCollider = new Rectangle((int)prev.X, (int)prev.Y, hitBox.Width, hitBox.Height);
                         if (previousCollider.Intersects(otherCollider))
                         {
@@ -35,7 +35,7 @@ namespace GamePatterns.Objects
                         }
                         else
                         {
-                            main.Get<IPositionModule>().Reposition(prev);
+                            main.Get<IPositionComponent>().Position = prev;
                         }
                     }
                 }
@@ -55,26 +55,26 @@ namespace GamePatterns.Objects
                 || (b.Bottom >= a.Top && b.Top <= a.Bottom));
         }
 
-        public static IEnumerable<ICollideModule> CollidesWith(Vector2 position, ICollideModule main, IEnumerable<ICollideModule> check)
+        public static IEnumerable<ICollideComponent> CollidesWith(Vector2 position, ICollideComponent main, IEnumerable<ICollideComponent> check)
         {
             Rectangle accurateHitBox = new Rectangle((int)position.X, (int)position.Y, main.HitBox.Width, main.HitBox.Height);
-            foreach (ICollideModule module in check)
+            foreach (ICollideComponent collide in check)
             {
-                if (HasCollision(accurateHitBox, module.HitBox))
+                if (HasCollision(accurateHitBox, collide.HitBox))
                 {
-                    yield return module;
+                    yield return collide;
                 }
             }
         }
 
         public static bool HasCollision(IGameObject mainObj, IEnumerable<IGameObject> objects)
         {
-            if (!mainObj.Has<ICollideModule>()) return false;
-            ICollideModule mainModule = mainObj.Get<ICollideModule>();
-            foreach (IGameObject obj in objects.Where(o => o.Has<CollideModule>()))
+            if (!mainObj.Has<ICollideComponent>()) return false;
+            ICollideComponent mainCollide = mainObj.Get<ICollideComponent>();
+            foreach (IGameObject obj in objects.Where(o => o.Has<CollideComponent>()))
             {
-                ICollideModule collideModule = obj.Get<ICollideModule>();
-                if (HasCollision(mainModule.HitBox, collideModule.HitBox))
+                ICollideComponent objCollide = obj.Get<ICollideComponent>();
+                if (HasCollision(mainCollide.HitBox, objCollide.HitBox))
                 {
                     return true;
                 }
