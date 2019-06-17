@@ -3,8 +3,8 @@ using GamePatterns.Objects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Ninject;
 using PubSub.Extension;
-using System;
 using System.Collections.Generic;
 
 namespace GamePatterns.States
@@ -14,16 +14,18 @@ namespace GamePatterns.States
         private Stack<IGameState> _stack;
         private InputHelper _input;
         private ContentManager _content;
+        private IKernel _kernel;
 
-        public StateManager(ContentManager content)
+        public StateManager(IKernel kernel, ContentManager content)
         {
+            _kernel = kernel;
             _stack = new Stack<IGameState>();
             _input = new InputHelper();
             _content = content;
 
             this.Subscribe<StateChangedMessage>(m =>
             {
-                var state = Activator.CreateInstance(m.StateType, content) as IGameState;
+                var state = (IGameState)_kernel.Get(m.StateType);
                 Push(state);
             });
         }

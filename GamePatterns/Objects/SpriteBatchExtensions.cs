@@ -14,7 +14,7 @@ namespace GamePatterns.Objects
 
                 foreach (Sprite sprite in graphic.Sprites)
                 {
-                    spriteBatch.Draw(graphic.Texture, position.Position, sprite.Rectangle, graphic.BaseColor);
+                    spriteBatch.Draw(graphic.Texture, position.Position + sprite.Offset, sprite.Rectangle, graphic.BaseColor);
                 }
             }
         }

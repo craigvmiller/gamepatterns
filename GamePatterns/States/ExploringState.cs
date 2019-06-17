@@ -9,33 +9,35 @@ namespace GamePatterns.States
 {
     public class ExploringState : IGameState
     {
+        private ICollisionHandler _collisionHandler;
         private IEnumerable<IGameObject> _objects;
         private IGameObjectFactory _factory;
         private ICamera _camera;
 
         public bool Completed { get; set; }
 
-        public ExploringState(ContentManager content)
+        public ExploringState(ContentManager content, ICollisionHandler collisionHandler, IGameObjectFactory factory)
         {
-            _factory = new GameObjectFactory();
+            _collisionHandler = collisionHandler;
+            _factory = factory;
             
             SpriteMap characterSpriteMap = new SpriteMap(content.Load<Texture2D>("character"));
             characterSpriteMap.Load(0);
-            var character = _factory.GetCharacter(characterSpriteMap, new Vector2(100, 100), new Rectangle(100, 100, 32, 32), CollisionType.Wall);
+            var character = _factory.GetPlayerCharacter(characterSpriteMap, new Vector2(0, 0), new Rectangle(0, 0, 32, 32), CollisionType.Wall);
 
             //_camera = new Camera(new Rectangle(100, 100, 600, 300), 2);
-            _camera = new Camera(new Vector3(100, 100, 0));
+            _camera = new Camera(new Vector3(0, 0, 0));
             _camera.Follow(character);
 
             SpriteMap worldSpriteMap = new SpriteMap(content.Load<Texture2D>("world"));
             worldSpriteMap.Load(1);
             var world = _factory.GetWorld(worldSpriteMap, new Vector2(0, 0));
-            var wall = _factory.GetProp(worldSpriteMap, new Vector2(-100, -100), new Rectangle(-100, -100, 32, 32), CollisionType.Wall);
+            var wall = _factory.GetProp(worldSpriteMap, new Vector2(400, 0), new Rectangle(0, 0, 32, 32), CollisionType.Wall);
 
             var objects = new List<IGameObject>();
-            objects.Add(character);
             objects.Add(world);
             objects.Add(wall);
+            objects.Add(character);
             _objects = objects;
         }
 
@@ -64,6 +66,7 @@ namespace GamePatterns.States
             {
                 obj.Update(gameTime);
             }
+            _collisionHandler.FixCollisions(_objects);
             _camera.Update(gameTime);
         }
 

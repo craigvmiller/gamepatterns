@@ -8,25 +8,25 @@ namespace GamePatterns.Components
 {
     public interface IGraphicComponent : IGameObjectComponent
     {
-        IList<Sprite> Sprites { get; }
+        IList<Sprite> Sprites { get; set; }
         Texture2D Texture { get; }
-        Color BaseColor { get; }
+        Color BaseColor { get; set; }
     }
 
     public class GraphicComponent : IGraphicComponent
     {
         SpriteMap _spriteMap;
 
-        public IList<Sprite> Sprites { get; private set; }
+        public IList<Sprite> Sprites { get; set; }
         public Texture2D Texture { get => _spriteMap.Texture; }
-        public Color BaseColor { get; private set; }
+        public Color BaseColor { get; set; }
 
         public GraphicComponent(SpriteMap spriteMap, Color color)
         {
             _spriteMap = spriteMap;
 
             BaseColor = color;
-            Sprites = new List<Sprite>() { spriteMap.Sprites.First() };
+            Sprites = new List<Sprite>();
         }
 
         public void Update(GameTime gameTime)

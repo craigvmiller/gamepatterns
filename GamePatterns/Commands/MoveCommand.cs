@@ -17,6 +17,8 @@ namespace GamePatterns.Commands
 
         public void Execute(IGameObject gameObject)
         {
+            if (!gameObject.Has<IPlayerComponent>()) return;
+
             IPositionComponent position = gameObject.Get<IPositionComponent>();
             IMovementComponent movement = gameObject.Get<IMovementComponent>();
 

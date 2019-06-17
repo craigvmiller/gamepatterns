@@ -39,6 +39,7 @@ namespace GamePatterns.Components
         public PositionComponent(Vector2 initialPos)
         {
             Position = initialPos;
+            _previousPosition = initialPos;
         }
 
         public void Update(GameTime gameTime)

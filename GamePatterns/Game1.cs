@@ -1,8 +1,11 @@
 ﻿using GamePatterns.Database;
 using GamePatterns.Messages;
+using GamePatterns.Objects;
 using GamePatterns.States;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Ninject;
 using PubSub.Extension;
 
 namespace GamePatterns
@@ -16,6 +19,7 @@ namespace GamePatterns
         private SpriteBatch _spriteBatch;
         private StateManager _stateManager;
         private DatabaseContext _database;
+        private IKernel _kernel;
 
         public Game1()
         {
@@ -24,7 +28,14 @@ namespace GamePatterns
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
-            _stateManager = new StateManager(Content);
+            _kernel = new StandardKernel();
+
+            _kernel.Bind<ContentManager>().ToConstant(Content);
+
+            _kernel.Bind<ICollisionHandler>().To<CollisionHandler>();
+            _kernel.Bind<IGameObjectFactory>().To<GameObjectFactory>();
+
+            _stateManager = new StateManager(_kernel, Content);
         }
 
         /// <summary>
