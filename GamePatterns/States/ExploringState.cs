@@ -23,7 +23,8 @@ namespace GamePatterns.States
             characterSpriteMap.Load(0);
             var character = _factory.GetCharacter(characterSpriteMap, new Vector2(100, 100), new Rectangle(100, 100, 32, 32), CollisionType.Wall);
 
-            _camera = new Camera(new Rectangle(100, 100, 600, 300), 2);
+            //_camera = new Camera(new Rectangle(100, 100, 600, 300), 2);
+            _camera = new Camera(new Vector3(100, 100, 0));
             _camera.Follow(character);
 
             SpriteMap worldSpriteMap = new SpriteMap(content.Load<Texture2D>("world"));
@@ -63,11 +64,12 @@ namespace GamePatterns.States
             {
                 obj.Update(gameTime);
             }
+            _camera.Update(gameTime);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin(transformMatrix: _camera.GetOffset());
+            spriteBatch.Begin(transformMatrix: _camera.Offset);
             foreach (IGameObject obj in _objects)
             {
                 spriteBatch.Draw(obj);
