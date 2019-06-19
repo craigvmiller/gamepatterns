@@ -15,6 +15,7 @@ namespace GamePatterns.Objects
     public class Camera : ICamera
     {
         private Vector3 _offset;
+        private Vector3 _position;
 
         public Matrix Offset
         {
@@ -29,28 +30,26 @@ namespace GamePatterns.Objects
 
         public Camera(Vector3 position)
         {
-            _offset = position;
-
-            Target = position;
-            Speed = 1;
+            _position = position;
+            Speed = 2;
         }
 
         public void Update(GameTime gameTime)
         {
-            if (Target.X > _offset.X)
+            if (Target.X > _offset.X + _position.X)
             {
                 _offset.X += Speed;
             }
-            else
+            else if (Target.X < _offset.X + _position.X)
             {
                 _offset.X -= Speed;
             }
 
-            if (Target.Y > _offset.Y)
+            if (Target.Y > _offset.Y + _position.Y)
             {
                 _offset.Y += Speed;
             }
-            else
+            else if (Target.Y < _offset.Y + _position.Y)
             {
                 _offset.Y -= Speed;
             }
@@ -60,6 +59,7 @@ namespace GamePatterns.Objects
         {
             if (follow.Has<IPositionComponent>())
             {
+                Target = new Vector3(follow.Get<IPositionComponent>().Position, 0);
                 follow.Get<IPositionComponent>().OnPositionChanged += (PositionMessage p) => Target = new Vector3(p.Position, 0);
             }
         }

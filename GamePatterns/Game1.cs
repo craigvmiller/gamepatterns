@@ -25,13 +25,17 @@ namespace GamePatterns
         {
             _database = new DatabaseContext();
 
-            _graphics = new GraphicsDeviceManager(this);
+            _graphics = new GraphicsDeviceManager(this)
+            {
+                PreferredBackBufferHeight = 600,
+                PreferredBackBufferWidth = 800
+            };
+
             Content.RootDirectory = "Content";
 
             _kernel = new StandardKernel();
-
             _kernel.Bind<ContentManager>().ToConstant(Content);
-
+            _kernel.Bind<GraphicsDeviceManager>().ToConstant(_graphics);
             _kernel.Bind<ICollisionHandler>().To<CollisionHandler>();
             _kernel.Bind<IGameObjectFactory>().To<GameObjectFactory>();
 
@@ -56,7 +60,6 @@ namespace GamePatterns
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
             this.Publish(new StateChangedMessage(typeof(ExploringState)));
         }
 

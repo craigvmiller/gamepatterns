@@ -16,7 +16,7 @@ namespace GamePatterns.States
 
         public bool Completed { get; set; }
 
-        public ExploringState(ContentManager content, ICollisionHandler collisionHandler, IGameObjectFactory factory)
+        public ExploringState(GraphicsDeviceManager graphicsDevice, ContentManager content, ICollisionHandler collisionHandler, IGameObjectFactory factory)
         {
             _collisionHandler = collisionHandler;
             _factory = factory;
@@ -25,8 +25,7 @@ namespace GamePatterns.States
             characterSpriteMap.Load(0);
             var character = _factory.GetPlayerCharacter(characterSpriteMap, new Vector2(0, 0), new Rectangle(0, 0, 32, 32), CollisionType.Wall);
 
-            //_camera = new Camera(new Rectangle(100, 100, 600, 300), 2);
-            _camera = new Camera(new Vector3(0, 0, 0));
+            _camera = new Camera(new Vector3(graphicsDevice.PreferredBackBufferWidth / 2, graphicsDevice.PreferredBackBufferHeight / 2, 0));
             _camera.Follow(character);
 
             SpriteMap worldSpriteMap = new SpriteMap(content.Load<Texture2D>("world"));
