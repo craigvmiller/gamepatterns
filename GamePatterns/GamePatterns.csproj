@@ -48,6 +48,7 @@
     <Compile Include="Commands\MoveCommand.cs" />
     <Compile Include="Commands\SubmitCommand.cs" />
     <Compile Include="Components\PlayerComponent.cs" />
+    <Compile Include="Components\TextComponent.cs" />
     <Compile Include="Database\DatabaseContext.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Messages\CameraMovedMessage.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="Objects\Sprite.cs" />
     <Compile Include="Objects\SpriteBatchExtensions.cs" />
     <Compile Include="Objects\SpriteMap.cs" />
+    <Compile Include="Objects\Text.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="States\DialogueState.cs" />
